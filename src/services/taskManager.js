@@ -13,7 +13,9 @@ exports.createNewIncidents = async (sinceDate) => {
   console.log('Finding new incidents...')
 
   const tweets = await tweetFinder.getIncidentsTweets(sinceDate.toISOString())
+
   const replies = await tweetFinder.getRepliesOfIncidents(tweets.map(tweet => { return tweet.id }))
+  
   const newIncidents = tweets.filter((tweet, index) => {
     if (replies[index].length === 0) return tweet
   })
@@ -33,9 +35,10 @@ exports.removeIncidentsWithReply = async () => {
 
   let removedIncidentsCounter = 0
 
-  const tweets = await incidentController.readIncidents()
+  const tweets = await incidentController.readCompleteIncidents()
+  
   const replies = await tweetFinder.getRepliesOfIncidents(tweets.map(tweet => { return tweet.id }))
-
+  
   tweets.forEach((tweet, index) => {
     if (replies[index].length !== 0) {
       incidentController.deleteIncident(tweet.id)

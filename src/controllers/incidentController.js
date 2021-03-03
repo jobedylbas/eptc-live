@@ -18,7 +18,6 @@ exports.createIncidents = async tweets => {
       emojiCode: getEmojiCode(tweet.text)
     }}
   )
-  // await Incident.insertMany(incidents)
   await Incident.bulkWrite(incidents.map(incident => ({
     updateOne: {
         filter: {id: incident.id},
@@ -30,6 +29,7 @@ exports.createIncidents = async tweets => {
 
 /**
  * Find all incidents on database
+ * returning only text and emoji
  *
  * @async
  * @function readIncidents
@@ -47,6 +47,19 @@ exports.readIncidents = async () => {
 }
 
 /**
+ * Find all incidents on database
+ *
+ * @async
+ * @function readCompleteIncidents
+ */
+exports.readCompleteIncidents = async () => {
+  const incidents = await Incident.find({})
+  const incidentTweets = incidents.map(incident => incident)
+  
+  return incidentTweets
+}
+
+/**
  * Remove incident by Id
  *
  * @async
@@ -54,7 +67,7 @@ exports.readIncidents = async () => {
  * @param {String} - id of incident to delete
  */
 exports.deleteIncident = async incidentId => {
-  await Incident.findByIdAndDelete(incidentId)
+  await Incident.findOneAndDelete({ id: incidentId })
 }
 
 /**

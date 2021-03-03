@@ -43,7 +43,7 @@ const getRepliesFromIncident = async (incidentId, resolve) => {
   // Edit query parameters below
   // specify a search query, and any additional fields that are required
   // by default, only the Tweet ID and text fields are returned
-  params.query = 'is:reply from:EPTC_POA to:EPTC_POA conversation_id: incidentId'
+  params.query = `is:reply from:EPTC_POA to:EPTC_POA conversation_id: ${incidentId}`
   params['tweet.fields'] = 'conversation_id'
 
   const res = await twitterApi.getTweets(params)
