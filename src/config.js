@@ -12,5 +12,6 @@ config.mongodb.database = process.env.MONGODB_DATABASE || 'database'
 config.mongodb.collection = process.env.MONGODB_COLLECTION || 'collection'
 config.mongodb.uri = process.env.MONGODB_URI || 'uri'
 config.web.port = process.env.PORT || 3000
+config.web.env = process.env.NODE_ENV || 'development'
 
 module.exports = config
