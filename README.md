@@ -7,7 +7,7 @@ Siga o [Código de Trânsito](http://www.planalto.gov.br/ccivil_03/leis/l9503com
 
 Se beber não dirija. 🚫
 
-Use cinto. 🚘
+Use cinto de segurança. 🚘
 
 Um trânsito seguro depende todos nós. 😉
 
