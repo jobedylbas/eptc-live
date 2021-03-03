@@ -1,6 +1,6 @@
 const DEFAULT_CENTER = [-30.04, -51.22]
 const DEFAULT_ZOOM = 13
-const DEFAULT_INTERVAL = 900000
+const DEFAULT_INTERVAL = 60000
 const DEFAULT_ZOOM_POSITION = 'bottomright'
 const DEFAULT_ICON_SIZE = 36
 var markers = []
