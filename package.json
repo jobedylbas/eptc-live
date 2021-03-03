@@ -1,0 +1,29 @@
+{
+  "name": "eptc-live",
+  "version": "1.0.0",
+  "description": "Real time traffic map using tweets of EPTC.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./bin/www",
+    "devstart": "nodemon -r dotenv/config ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jobe Diego Dylbas dos Santos",
+  "license": "MIT",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "helmet": "^4.4.1",
+    "http-errors": "^1.7.2",
+    "mongoose": "^5.11.17",
+    "morgan": "^1.10.0",
+    "needle": "^2.6.0",
+    "node-cron": "^2.0.3",
+    "path": "^0.12.7",
+    "pug": "^3.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.7"
+  }
+}

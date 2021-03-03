@@ -1,0 +1,58 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+}
+
+#map {
+    height: 89%;
+    width: 100%;
+}
+
+.twitter-timeline {
+    position: absolute !important;
+    left: 10px !important;
+    top: 10px !important;
+    z-index: 1000;
+    height: 96% !important;
+}
+
+#no-incident-alert {
+    visibility: hidden;
+}
+
+#alert-list {
+    list-style-type: none;
+    position: absolute !important;
+    right: 10px;
+    top: 10px;
+    z-index: 1001;
+}
+
+img.emoji {
+    height: 1em;
+    width: 1em;
+    margin: 0 .05em 0 .1em;
+    vertical-align: -0.1em;
+ }
+
+.semi-bold {
+    font-weight: 600;
+}
+
+.bg-blue {
+    background-color: #0052CC;
+}
+
+.text-blue {
+    color: #0052CC;
+}
+
+@media screen and (max-width: 719px) {
+    #alert {
+        position: fixed;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,12 @@
+extends layout 
+
+block content
+        main#map
+            ul#alert-list
+                li#covid-alert.alert.alert-info
+                    | Para informações sobre COVID-19 acesse o site neste 
+                    a.alert-link(href='https://prefeitura.poa.br/coronavirus', target='_blank') link
+                    |. 😷
+                li#no-incident-alert.alert.alert-success Não localizamos nenhum incidente nas últimas 4 horas. 😃
+
+            include card
