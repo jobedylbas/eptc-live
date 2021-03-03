@@ -1,18 +1,18 @@
+const createError = require('http-errors')
+const compression = require('compression')
 const mongoose = require('mongoose')
 const express = require('express')
-const createError = require('http-errors')
-const path = require('path')
 const logger = require('morgan')
-const compression = require('compression')
 const helmet = require('helmet')
+const path = require('path')
 const indexRouter = require(path.join(__dirname, 'routes', 'index'))
 const incidentRouter = require(path.join(__dirname, 'routes', 'incident'))
 const scheduler = require(path.join(__dirname, 'services', 'taskScheduler'))
 const config = require(path.join(__dirname, 'config.js'))
 
+
 const port = config.web.port
 const app = express()
-
 app.use(helmet({
   contentSecurityPolicy: false
 }))
