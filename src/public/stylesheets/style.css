@@ -67,12 +67,12 @@ img.emoji {
     font-size: 2.25rem; 
   }
   
-  nav {
-    font-size: 2.25rem;
+  #nav-link {
+    font-size: 2.5rem;
   }
 
   .navbar-brand {
-      font-size: 2.5rem;
+      font-size: 3.8rem;
   }
 
   .btn {
@@ -89,5 +89,10 @@ img.emoji {
 
   footer {
       font-size: 1.25rem !important;
+  }
+
+  .navbar-toggler {
+      width: 6rem;
+      height: 5rem;
   }
 }
