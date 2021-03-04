@@ -60,7 +60,7 @@ const getRepliesFromIncident = async (incidentId, resolve) => {
  * @returns {Object} - Tweets of the incidents
  */
 exports.getIncidentsTweets = async sinceDate => {
-  const treeQuery = '(árvore (caída OR queda))'
+  const treeQuery = '((árvore (caída OR queda)) OR (galho (caído OR queda)))'
   const incidentQuery = '(acidente OR colisão OR atropelamento OR (queda moto))'
   const liquidQuery = '(derramado OR derramamento)'
   const breakQuery = '(pane)'

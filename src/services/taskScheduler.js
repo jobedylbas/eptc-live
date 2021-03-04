@@ -24,7 +24,7 @@ const generateLimitDate = (lessMinutes) => {
 const isComercialHour = () => {
   const d = new Date()
   const hour = d.getHours()
-  return (hour => 7 && hour <= 20)
+  return (hour => 7 && hour <= 21)
 }
 
 /**
@@ -33,9 +33,9 @@ const isComercialHour = () => {
  * @function scheduleToFindNewIncidents
  */
 exports.scheduleToFindNewIncidents = () => {
-  cron.schedule('0 */15 * * * *', async () => {
+  cron.schedule('0 */2 * * * *  ', async () => {
     if (isComercialHour) {
-      taskManager.createNewIncidents(generateLimitDate(15))
+      taskManager.createNewIncidents(generateLimitDate(10))
     }
   })
 }
@@ -46,8 +46,10 @@ exports.scheduleToFindNewIncidents = () => {
  * @function scheduleToRemoveIncidentsWithReply
  */
 exports.scheduleToRemoveIncidentsWithReply = () => {
-  cron.schedule('0 */15 * * * *', async () => {
-    taskManager.removeIncidentsWithReply()
+  cron.schedule('0 */2 * * * *', async () => {
+    if (isComercialHour) {
+      taskManager.removeIncidentsWithReply()
+    }
   })
 }
 

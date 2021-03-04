@@ -92,7 +92,7 @@ const getEmojiCode = text => {
   const incidentQuery = ['acidente', 'colisão', 'atropelamento',  'moto']
   const liquidQuery = ['derramado', 'derramamento']
   const breakQuery = ['pane']
-  const treeQuery = ['árvore', 'caída', 'queda']
+  const treeQuery = ['árvore', 'caída', 'queda', 'galho']
   const queries = [incidentQuery, liquidQuery, breakQuery, treeQuery]
   const emojis = ['26a0', '1F4a7', '1f527', '1f333']
   let emojiCode = emojis[0]
@@ -100,7 +100,7 @@ const getEmojiCode = text => {
 
   queries.every((query, index) => {
     query.some((word) => {
-      if (text.includes(word)) {
+      if (text.toLowerCase().includes(word)) {
         emojiCode = emojis[index]
         found = false
         return true
