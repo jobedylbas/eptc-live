@@ -23,9 +23,6 @@ html, body {
 
 #alert-list {
     list-style-type: none;
-    position: absolute !important;
-    right: 10px;
-    top: 10px;
     z-index: 1001;
 }
 
@@ -55,4 +52,42 @@ img.emoji {
         display: flex;
         justify-content: center;
     }
+}
+
+@media (max-width: 1023px){
+  h1 { 
+      font-size: 4.8rem; 
+  }
+  
+  h2 { 
+    font-size: 3.3rem; 
+  }
+  
+  p  { 
+    font-size: 2.25rem; 
+  }
+  
+  nav {
+    font-size: 2.25rem;
+  }
+
+  .navbar-brand {
+      font-size: 2.5rem;
+  }
+
+  .btn {
+      font-size: 2.25rem;
+  }
+
+  figcapture {
+      font-size: 2rem;
+  }
+
+  li {
+      font-size: 2rem !important;
+  }
+
+  footer {
+      font-size: 1.25rem !important;
+  }
 }
