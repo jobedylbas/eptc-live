@@ -45,6 +45,11 @@ img.emoji {
     color: #0052CC;
 }
 
+.leaflet-popup-close-button {
+    color: #f44336 !important;
+    font-weight: 400 !important;
+}
+
 @media screen and (max-width: 719px) {
     #alert {
         position: fixed;
@@ -98,5 +103,11 @@ img.emoji {
 
     .leaflet-popup-content-wrapper {
         font-size: 1.6rem;
+        padding: 16px 16px 16px 16px;
+    }
+
+    .leaflet-popup-close-button {
+        font-size: 2.5rem !important;
+        padding: 16px 42px 0px 0px !important;
     }
 }
