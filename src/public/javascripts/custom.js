@@ -1,9 +1,11 @@
 const DEFAULT_CENTER = [-30.04, -51.22]
 const DEFAULT_ZOOM = 13
+const MOBILE_CENTER = [-30.04, -51.19]
 const DEFAULT_INTERVAL = 60000
 const DEFAULT_ZOOM_POSITION = 'bottomright'
 const DEFAULT_ICON_SIZE = 36
 var markers = []
+
 /**
  * Set map on best center I found
  *
@@ -11,7 +13,23 @@ var markers = []
  * @param {Object} map - map to set on center
  */
 const setMap = map => {
-  map.setView(DEFAULT_CENTER, DEFAULT_ZOOM)
+  let tileSize = 256
+  let zoomOffset = 0
+
+  if (window.screen.width <= 1024) {
+    map.setView(MOBILE_CENTER, DEFAULT_ZOOM)
+    tileSize = 512
+    zoomOffset = -1
+  } else {
+    map.setView(DEFAULT_CENTER, DEFAULT_ZOOM)
+  }
+
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      subdomains: ['a', 'b', 'c'],
+      tileSize: tileSize,
+      zoomOffset: zoomOffset,
+    }).addTo(map)
 }
 
 /**
@@ -273,18 +291,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       zoomControl: false
     })
 
-    setTimeout(setMap(map), 800)
+    window.addEventListener('resize', () => {
+      shouldRemoveTwitter()
+      setMap(map)
+    })
 
-    window.addEventListener('resize', shouldRemoveTwitter)
-
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      subdomains: ['a', 'b', 'c']
-    }).addTo(map)
-
-    L.control.zoom({
-      position: 'bottomright'
-    }).addTo(map)
+    setTimeout(() => {
+      setMap(map)
+      L.control.zoom({
+        position: 'bottomright'
+      }).addTo(map)
+    }, 400)
 
     shouldRemoveTwitter()
 
