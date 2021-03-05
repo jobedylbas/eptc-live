@@ -3,7 +3,7 @@ const DEFAULT_ZOOM = 13
 const MOBILE_CENTER = [-30.04, -51.19]
 const DEFAULT_INTERVAL = 60000
 const DEFAULT_ZOOM_POSITION = 'bottomright'
-const DEFAULT_ICON_SIZE = 36
+const DEFAULT_ICON_SIZE = 42
 var markers = []
 
 /**
@@ -42,7 +42,7 @@ const setMap = map => {
 const createMarkerIcon = iconUrl => {
   return L.icon({
     iconUrl: iconUrl,
-    iconSize: [36, 36]
+    iconSize: [DEFAULT_ICON_SIZE, DEFAULT_ICON_SIZE]
   })
 }
 
