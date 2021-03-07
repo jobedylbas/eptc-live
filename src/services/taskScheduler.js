@@ -24,7 +24,12 @@ const generateLimitDate = (lessMinutes) => {
 const isComercialHour = () => {
   const d = new Date()
   const hour = d.getHours()
-  return (hour => 7 && hour <= 21)
+  const day = d.getDay()
+
+  if (day < 6) {
+    return (hour => 7 && hour <= 21)
+  }
+  return false
 }
 
 /**
@@ -61,6 +66,8 @@ exports.scheduleToRemoveIncidentsWithReply = () => {
  */
 exports.scheduleToRemoveOldIncidents = () => {
   cron.schedule('0 */15 * * * *', () => {
-    taskManager.removeOlderIncidents(generateLimitDate(240))
+    if (isComercialHour) {
+      taskManager.removeOlderIncidents(generateLimitDate(240))
+    }
   })
 }
