@@ -64,7 +64,8 @@ exports.getIncidentsTweets = async sinceDate => {
   const incidentQuery = '(acidente OR colisão OR atropelamento OR (queda moto))'
   const liquidQuery = '(derramado OR derramamento)'
   const breakQuery = '(pane)'
-  const allQueries = [treeQuery, incidentQuery, liquidQuery, breakQuery]
+  const blockQuery = '(bloqueio)'
+  const allQueries = [treeQuery, incidentQuery, liquidQuery, breakQuery, blockQuery]
 
   const stringQuery = allQueries.join(' OR ')
 

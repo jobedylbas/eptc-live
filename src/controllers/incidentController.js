@@ -93,8 +93,9 @@ const getEmojiCode = text => {
   const liquidQuery = ['derramado', 'derramamento']
   const breakQuery = ['pane']
   const treeQuery = ['árvore', 'caída', 'queda', 'galho']
-  const queries = [incidentQuery, liquidQuery, breakQuery, treeQuery]
-  const emojis = ['26a0', '1F4a7', '1f527', '1f333']
+  const blockQuery = ['bloqueio']
+  const queries = [incidentQuery, liquidQuery, breakQuery, treeQuery, blockQuery]
+  const emojis = ['26a0', '1F4a7', '1f527', '1f333', '1f6A7']
   let emojiCode = emojis[0]
   let found = true
 
