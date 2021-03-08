@@ -56,9 +56,8 @@ exports.removeIncidentsWithReply = async () => {
  * @function removeOlderIncidents
  * @param {Date} sinceDate
  */
-
 exports.removeOlderIncidents = async sinceDate => {
   console.log("Removing old incidents.")
-  incidentController.deleteOlderIncidents(sinceDate.toISOString())
+  await incidentController.deleteOlderIncidents(sinceDate.toISOString())
   console.log("Removing old incidents completed.")
 }

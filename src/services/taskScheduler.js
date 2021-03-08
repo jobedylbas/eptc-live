@@ -66,7 +66,8 @@ exports.scheduleToRemoveIncidentsWithReply = () => {
  */
 exports.scheduleToRemoveOldIncidents = () => {
   cron.schedule('0 */15 * * * *', () => {
-    if (isComercialHour) {
+    const d = new Date()
+    if (d.getDay() < 6 && d.getHours() > 10) {
       taskManager.removeOlderIncidents(generateLimitDate(240))
     }
   })
