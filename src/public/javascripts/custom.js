@@ -122,8 +122,8 @@ const getAddressCoordinates = async address => {
 const parseIncidentLocation = incidentText => {
   const tmpText = incidentText.toString().toLowerCase().slice(8).replace(/https?:\/\/(.*)/, '')
   const number = tmpText.match(/\d+/g)
-  const street = tmpText.match(/(\b((av)|(rua)|(br)|(estr)|(trav)))+((.+?)(?=,))/g)
-  console.log(number, street)
+  const street = tmpText.match(/\b((av)|(r\.)|(rua)|(estr)|(trav))+((.+?)(?=,))/g)
+
   if (street && number) {
     if (street.length === 1 && number.length === 1) {
       return `${number[0]} ${street[0]}`
