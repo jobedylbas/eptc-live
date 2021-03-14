@@ -3,7 +3,7 @@ const DEFAULT_ZOOM = 13
 const MOBILE_CENTER = [-30.04, -51.19]
 const DEFAULT_INTERVAL = 60000
 const DEFAULT_ZOOM_POSITION = 'bottomright'
-const DEFAULT_ICON_SIZE = 42
+const DEFAULT_ICON_SIZE = 38
 var markers = []
 
 /**
@@ -98,7 +98,7 @@ const getAddressCoordinates = async address => {
   if (address !== '') {
     const endpointUrl = 'https://nominatim.openstreetmap.org/search?'
     const searchParams = createSearchAddressQuery(address)
-    const res = await fetch(endpointUrl + searchParams)
+    const res =  await fetch(endpointUrl + searchParams)
       .then(result => result.json())
 
     if (res[0]) {
@@ -120,9 +120,12 @@ const getAddressCoordinates = async address => {
  * @returns {string} address on format: Number St. Name
  */
 const parseIncidentLocation = incidentText => {
+  if (incidentText.toLowerCase().includes('içamento')) {
+    return 'Ponte do Guaíba'
+  }
   const tmpText = incidentText.toString().toLowerCase().slice(8).replace(/https?:\/\/(.*)/, '')
   const number = tmpText.match(/\d+/g)
-  const street = tmpText.match(/\b((av)|(r\.)|(rua)|(estr)|(trav))+((.+?)(?=,))/g)
+  const street = tmpText.match(/\b((av)|(r\.)|(rua)|(estr)|(trav)|(beco))+((.+?)(?=,|\n))/g)
 
   if (street && number) {
     if (street.length === 1 && number.length === 1) {
@@ -234,9 +237,9 @@ const getIncidents = async () => {
 
   const addresses = tweets.map(tweet => parseIncidentLocation(tweet.text))
 
-  const coordinates = await getAddressesCoordinates(addresses.slice(0, 10))
+  const coordinates = await getAddressesCoordinates(addresses.slice(0, 8))
     .then(result => result)
-  return joinTweetsAndCoordinates(tweets.slice(0, 10), coordinates.slice(0, 10))
+  return joinTweetsAndCoordinates(tweets.slice(0, 8), coordinates.slice(0, 8))
 }
 
 /**

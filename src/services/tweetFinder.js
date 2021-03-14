@@ -60,20 +60,32 @@ const getRepliesFromIncident = async (incidentId, resolve) => {
  * @returns {Object} - Tweets of the incidents
  */
 exports.getIncidentsTweets = async sinceDate => {
-  const treeQuery = '((árvore (caída OR queda)) OR (galho (caído OR queda)))'
-  const incidentQuery = '(acidente OR colisão OR atropelamento OR (queda moto))'
-  const liquidQuery = '(derramado OR derramamento)'
-  const breakQuery = '(pane)'
-  const blockQuery = '(bloqueio)'
-  const allQueries = [treeQuery, incidentQuery, liquidQuery, breakQuery, blockQuery]
-
-  const stringQuery = allQueries.join(' OR ')
-
-  params.query = `(${stringQuery}) -is:reply from:EPTC_POA`
+  params.query = createQuery()
   params['tweet.fields'] = 'created_at'
   params.start_time = sinceDate
 
   const res = await twitterApi.getTweets(params)
 
   return res.data || []
+}
+
+/**
+ * Create query for incident types
+ * 
+ * @function
+ * @returns string with query to get tweets
+ */
+const createQuery = () => {
+  const treeQuery = '((árvore (caída OR queda)) OR (galho (caído OR queda)))'
+  const incidentQuery = '(acidente OR colisão OR atropelamento OR (queda moto))'
+  const liquidQuery = '(derramado OR derramamento)'
+  const breakQuery = '(pane)'
+  const blockQuery = '(bloqueio)'
+  const electricQuery = '(fios (caídos OR queda))'
+  const bridgeQuery = '(içamento (iniciado OR ocorre OR andamento OR (em operação)))'
+  const allQueries = [treeQuery, incidentQuery, liquidQuery, breakQuery, blockQuery, electricQuery, bridgeQuery]
+
+  const stringQuery = allQueries.join(' OR ')
+
+  return `(${stringQuery}) -is:reply from:EPTC_POA`
 }
