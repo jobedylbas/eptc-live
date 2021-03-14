@@ -26,7 +26,7 @@ const isComercialHour = () => {
   const hour = d.getHours()
   const day = d.getDay()
 
-  if (day < 6) {
+  if (day > 0 && day < 6) {
     return (hour => 7 && hour <= 21)
   }
   return false
@@ -40,7 +40,7 @@ const isComercialHour = () => {
 exports.scheduleToFindNewIncidents = () => {
   cron.schedule('0 */2 * * * *  ', async () => {
     if (isComercialHour) {
-      taskManager.createNewIncidents(generateLimitDate(10))
+      taskManager.createNewIncidents(generateLimitDate(15))
     }
   })
 }
@@ -67,7 +67,8 @@ exports.scheduleToRemoveIncidentsWithReply = () => {
 exports.scheduleToRemoveOldIncidents = () => {
   cron.schedule('0 */15 * * * *', () => {
     const d = new Date()
-    if (d.getDay() < 6 && d.getHours() > 10) {
+    const day = d.getDay()
+    if (day < 6 && day > 1 && d.getHours() > 10) {
       taskManager.removeOlderIncidents(generateLimitDate(240))
     }
   })
