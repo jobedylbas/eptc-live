@@ -129,7 +129,7 @@ const parseIncidentLocation = incidentText => {
 
   if (street && number) {
     if (street.length === 1 && number.length === 1) {
-      return `${number[0]} ${street[0]}`
+      return `${number[0].trim()} ${street[0].trim()}`
     }
   }
   return ''
