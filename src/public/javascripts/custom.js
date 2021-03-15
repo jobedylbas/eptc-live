@@ -125,7 +125,7 @@ const parseIncidentLocation = incidentText => {
   }
   const tmpText = incidentText.toString().toLowerCase().slice(8).replace(/https?:\/\/(.*)/, '')
   const number = tmpText.match(/\d+/g)
-  const street = tmpText.match(/\b((av)|(r\.)|(rua)|(estr)|(trav)|(beco))+((.+?)(?=(,|\n|.)))/g)
+  const street = tmpText.match(/\b((av)|(r\.)|(rua)|(estr)|(trav)|(beco))+((.+?)(?=(,|\n|.|\d)))/g)
 
   if (street && number) {
     if (street.length === 1 && number.length === 1) {
