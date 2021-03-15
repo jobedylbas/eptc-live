@@ -237,9 +237,9 @@ const getIncidents = async () => {
 
   const addresses = tweets.map(tweet => parseIncidentLocation(tweet.text))
 
-  const coordinates = await getAddressesCoordinates(addresses.slice(0, 8))
+  const coordinates = await getAddressesCoordinates(addresses)
     .then(result => result)
-  return joinTweetsAndCoordinates(tweets.slice(0, 8), coordinates.slice(0, 8))
+  return joinTweetsAndCoordinates(tweets, coordinates)
 }
 
 /**
