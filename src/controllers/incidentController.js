@@ -94,7 +94,7 @@ const getEmojiCode = text => {
   const breakQuery = ['pane']
   const treeQuery = ['árvore', 'galho']
   const blockQuery = ['bloqueio']
-  const electricQuery = ['fios']
+  const electricQuery = ['fios', 'fiação']
   const bridgeQuery = ['içamento']
   const queries = [incidentQuery, liquidQuery, breakQuery, treeQuery, blockQuery, electricQuery, bridgeQuery]
   const emojis = ['26a0', '1F4a7', '1f527', '1f333', '1f6A7', '26a1', '2b06']
