@@ -124,8 +124,8 @@ const parseIncidentLocation = incidentText => {
     return 'Ponte do Guaíba'
   }
   const tmpText = incidentText.toString().toLowerCase().slice(8).replace(/https?:\/\/(.*)/, '')
-  const number = tmpText.match(/(,| )\d+(?=,| |.|\n)/g)
-  const street = tmpText.match(/\b((av)|(r\.)|(rua)|(estr)|(trav)|(beco))+((.+?)(?=(,|\.|\n)))/g)
+  const number = tmpText.match(/(,| )\d+(?=,| |\.|\n)/g)
+  const street = tmpText.match(/\b((av)|(r\.)|(rua)|(estr)|(trav)|(beco))+((.+?)(?=(,|\.|\n|(\d+(?=,| |\.|\n)))))/g)
 
   if (street && number) {
     if (street.length === 1 && number.length === 1) {
