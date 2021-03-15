@@ -81,7 +81,7 @@ const createQuery = () => {
   const liquidQuery = '(derramado OR derramamento)'
   const breakQuery = '(pane)'
   const blockQuery = '(bloqueio)'
-  const electricQuery = '((fios (caídos OR queda OR suspensos)) OR (fiação (caída OR suspensa)))'
+  const electricQuery = '((fios (caídos OR queda OR suspensos OR sobre)) OR (fiação (caída OR suspensa OR sobre)))'
   const bridgeQuery = '(içamento (iniciado OR ocorre OR andamento OR (em operação)))'
   const allQueries = [treeQuery, incidentQuery, liquidQuery, breakQuery, blockQuery, electricQuery, bridgeQuery]
 
