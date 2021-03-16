@@ -40,7 +40,7 @@ const isComercialHour = () => {
 exports.scheduleToFindNewIncidents = () => {
   cron.schedule('0 */2 * * * *', async () => {
     if (isComercialHour) {
-      taskManager.createNewIncidents(generateLimitDate(15))
+      taskManager.createNewIncidents(generateLimitDate(240))
     }
   })
 }
