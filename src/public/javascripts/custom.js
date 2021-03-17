@@ -291,6 +291,7 @@ const findNewIncidents = async (map) => {
 document.addEventListener('DOMContentLoaded', async () => {
   if (window.location.pathname === '/') {
     const map = L.map('map', {
+      tap: false,
       zoomControl: false
     })
 
