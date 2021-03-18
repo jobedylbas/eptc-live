@@ -120,10 +120,13 @@ const getAddressCoordinates = async address => {
  * @returns {string} address on format: Number St. Name
  */
 const parseIncidentLocation = incidentText => {
-  if (incidentText.toLowerCase().includes('içamento')) {
+  const tmpText = incidentText.toString().toLowerCase().slice(8).replace(/https?:\/\/(.*)/, '')
+  const queries = ['vão', 'móvel', 'ponte', 'guaíba']
+  
+  if (tmpText.includes('içamento') && queries.some((word) => tmpText.includes(word))) {
     return 'Ponte do Guaíba'
   }
-  const tmpText = incidentText.toString().toLowerCase().slice(8).replace(/https?:\/\/(.*)/, '')
+  
   const number = tmpText.match(/(,| )\d+(?=,| |\.|\n)/g)
   const street = tmpText.match(/\b((av)|(r\.)|(rua)|(estr)|(trav)|(beco))+((.+?)(?=(,|\.|\n|(\d+(?=,|\.|\n)))))/g)
 
