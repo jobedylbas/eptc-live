@@ -99,7 +99,7 @@ const getEmojiCode = text => {
   const horseQuery = ['caval']
   const queries = [incidentQuery, liquidQuery, breakQuery, treeQuery, 
                   blockQuery, electricQuery, bridgeQuery, horseQuery]
-  const emojis = ['26a0', '1F4a7', '1f527', '1f333', '1f6A7', '26a1', '2b06', '1f40e']
+  const emojis = ['26a0', '1F4a7', '1f527', '1f333', '1f6A7', '26a1', '26f4', '1f40e']
   let emojiCode = emojis[0]
   let found = true
 
