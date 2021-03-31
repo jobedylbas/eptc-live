@@ -1,6 +1,6 @@
 const path = require('path')
 const tweetFinder = require(path.join(__dirname, 'tweetFinder'))
-const incidentController = require(path.join(__dirname, '..', 'controllers', 'incidentController'))
+const incidentHelper = require(path.join(__dirname, '..', 'libs', 'incident'))
 
 /**
  * Add new valid incidents to database
@@ -20,7 +20,7 @@ exports.createNewIncidents = async (sinceDate) => {
     if (replies[index].length === 0) return tweet
   })
 
-  await incidentController.createIncidents(newIncidents)
+  await incidentHelper.createIncidents(newIncidents)
   console.log(`Task terminated. Number of incidents added: ${newIncidents.length}`)
 }
 
@@ -35,13 +35,13 @@ exports.removeIncidentsWithReply = async () => {
 
   let removedIncidentsCounter = 0
 
-  const tweets = await incidentController.readCompleteIncidents()
+  const tweets = await incidentHelper.readIncidents()
   
   const replies = await tweetFinder.getRepliesOfIncidents(tweets.map(tweet => { return tweet.id }))
-  
+
   tweets.forEach((tweet, index) => {
     if (replies[index].length !== 0) {
-      incidentController.deleteIncident(tweet.id)
+      incidentHelper.deleteIncident(tweet.id)
       removedIncidentsCounter += 1
     }
   })
@@ -58,6 +58,6 @@ exports.removeIncidentsWithReply = async () => {
  */
 exports.removeOlderIncidents = async sinceDate => {
   console.log("Removing old incidents.")
-  await incidentController.deleteOlderIncidents(sinceDate.toISOString())
+  await incidentHelper.deleteOlderIncidents(sinceDate.toISOString())
   console.log("Removing old incidents completed.")
 }
