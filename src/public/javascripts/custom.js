@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     setTimeout(() => {
       setMap(map)
       L.control.zoom({
-        position: 'bottomright'
+        position: DEFAULT_ZOOM_POSITION
       }).addTo(map)
     }, 400)
 
