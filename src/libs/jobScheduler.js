@@ -54,7 +54,7 @@ exports.scheduleToFindNewIncidents = () => {
  * @function scheduleToRemoveIncidentsWithReply
  */
 exports.scheduleToRemoveIncidentsWithReply = () => {
-  cron.schedule('* * * * * *', async () => {
+  cron.schedule('* * * * *', async () => {
     if (isComercialHour) {
       resolvedIncidentRemover.removeResolvedIncidents()
     }
