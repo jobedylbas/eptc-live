@@ -3,7 +3,7 @@ const DEFAULT_ZOOM = 13
 const MOBILE_CENTER = [-30.04, -51.19]
 const DEFAULT_INTERVAL = 60000
 const DEFAULT_ZOOM_POSITION = 'bottomright'
-const DEFAULT_ICON_SIZE = 38
+const DEFAULT_ICON_SIZE = 42
 var markers = []
 
 /**
@@ -25,11 +25,11 @@ const setMap = map => {
   }
 
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      subdomains: ['a', 'b', 'c'],
-      tileSize: tileSize,
-      zoomOffset: zoomOffset,
-    }).addTo(map)
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    subdomains: ['a', 'b', 'c'],
+    tileSize: tileSize,
+    zoomOffset: zoomOffset,
+  }).addTo(map);
 }
 
 /**
@@ -171,10 +171,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     })
 
     setTimeout(() => {
-      setMap(map)
+      setMap(map);
+
       L.control.zoom({
         position: DEFAULT_ZOOM_POSITION
-      }).addTo(map)
+      }).addTo(map);
+
+      map.invalidateSize();
     }, 400)
 
     shouldRemoveTwitter()
