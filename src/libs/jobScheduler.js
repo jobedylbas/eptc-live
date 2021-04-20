@@ -1,6 +1,9 @@
 const cron = require('node-cron')
 const path = require('path')
-const taskManager = require(path.join(__dirname, 'taskManager'))
+const incidentFinder = require(path.join(__dirname, '..', 'jobs', 'findIncidents'))
+const resolvedIncidentRemover = require(path.join(__dirname, '..', 'jobs', 'removeResolvedIncidents'))
+const oldIncidentRemover = require(path.join(__dirname, '..', 'jobs', 'removeOldIncidents'))
+
 
 /**
  * Get valid date for tasks to execute
@@ -38,9 +41,9 @@ const isComercialHour = () => {
  * @function scheduleToFindNewIncidents
  */
 exports.scheduleToFindNewIncidents = () => {
-  cron.schedule('0 */2 * * * *', async () => {
+  cron.schedule('* * * * *', async () => {
     if (isComercialHour) {
-      taskManager.createNewIncidents(generateLimitDate(240))
+      incidentFinder.findNewIncidents(generateLimitDate(240))
     }
   })
 }
@@ -51,9 +54,9 @@ exports.scheduleToFindNewIncidents = () => {
  * @function scheduleToRemoveIncidentsWithReply
  */
 exports.scheduleToRemoveIncidentsWithReply = () => {
-  cron.schedule('0 */2 * * * *', async () => {
+  cron.schedule('* * * * * *', async () => {
     if (isComercialHour) {
-      taskManager.removeIncidentsWithReply()
+      resolvedIncidentRemover.removeResolvedIncidents()
     }
   })
 }
@@ -66,6 +69,6 @@ exports.scheduleToRemoveIncidentsWithReply = () => {
  */
 exports.scheduleToRemoveOldIncidents = () => {
   cron.schedule('0 */15 * * * *', () => {
-    taskManager.removeOlderIncidents(generateLimitDate(240))
+    oldIncidentRemover.removeOldIncidents(generateLimitDate(240))
   })
 }

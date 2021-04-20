@@ -1,11 +1,11 @@
 const path = require('path')
-const twitterApi = require(path.join(__dirname, 'twitterApi'))
+const twitterApi = require(path.join(__dirname, '..', 'services', 'twitterApi'))
 
 /**
  * @constant
  * @type {Object}
  */
-const params = {
+ const params = {
   max_results: 100
 }
 
@@ -17,12 +17,12 @@ const params = {
  * @param {Array} incidentIds - tweet ids of incidents
  * @returns array of reply objects for each incident
  */
-exports.getRepliesOfIncidents = incidentsIds => {
+exports.searchRepliesOfIncidents = incidentsIds => {
   const promises = []
   incidentsIds.forEach(incidentId => {
     try {
       promises.push(new Promise(function (resolve) {
-        getRepliesFromIncident(incidentId, resolve)
+        searchRepliesFromIncident(incidentId, resolve)
       }))
     } catch {
       console.log(`Some error getting replies from incident: ${incidentId}`)
@@ -39,7 +39,7 @@ exports.getRepliesOfIncidents = incidentsIds => {
  * @param {Number} incidentId - incidentId to get replies
  * @returns {Object} with replied tweets from the incident tweet
  */
-const getRepliesFromIncident = async (incidentId, resolve) => {
+const searchRepliesFromIncident = async (incidentId, resolve) => {
   // Edit query parameters below
   // specify a search query, and any additional fields that are required
   // by default, only the Tweet ID and text fields are returned
@@ -55,11 +55,11 @@ const getRepliesFromIncident = async (incidentId, resolve) => {
  * Get tweet incidents of EPTC_POA
  *
  * @async
- * @function getIncidents
+ * @function searchIncidents
  * @param {string} sinceDate - UTC ISO string representing start time of incidents
  * @returns {Object} - Tweets of the incidents
  */
-exports.getIncidentsTweets = async sinceDate => {
+exports.searchIncidents = async sinceDate => {
   params.query = createQuery()
   params['tweet.fields'] = 'created_at'
   params.start_time = sinceDate

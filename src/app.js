@@ -7,7 +7,7 @@ const helmet = require('helmet')
 const path = require('path')
 const indexRouter = require(path.join(__dirname, 'routes', 'index'))
 const incidentRouter = require(path.join(__dirname, 'routes', 'incident'))
-const scheduler = require(path.join(__dirname, 'services', 'taskScheduler'))
+const scheduler = require(path.join(__dirname, 'libs', 'jobScheduler'))
 const config = require(path.join(__dirname, 'config.js'))
 
 

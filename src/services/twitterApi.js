@@ -39,3 +39,4 @@ exports.getTweets = async queryObject => {
     throw new Error('Unsuccessful request')
   }
 }
+
