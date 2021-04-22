@@ -165,6 +165,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       zoomControl: false
     })
 
+    map.on("load", () => { setTimeout(() => {
+      self.map.invalidateSize();
+      }, 400); 
+    });
+
     window.addEventListener('resize', () => {
       shouldRemoveTwitter()
       setMap(map)
@@ -176,8 +181,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       L.control.zoom({
         position: DEFAULT_ZOOM_POSITION
       }).addTo(map);
-
-      map.invalidateSize();
     }, 400)
 
     shouldRemoveTwitter()
