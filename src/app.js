@@ -56,7 +56,10 @@ app.use(function (err, req, res, next) {
 // Scheduler
 scheduler.scheduleToFindNewIncidents()
 scheduler.scheduleToRemoveIncidentsWithReply()
-scheduler.scheduleToRemoveOldIncidents()
+
+if(process.env.NODE_ENV === 'production') {
+  scheduler.scheduleToRemoveOldIncidents()
+}
 
 app.listen(port, () => {
   console.log(`EPTC is live on Port: ${port}!`)
