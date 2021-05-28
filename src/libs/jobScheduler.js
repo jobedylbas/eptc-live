@@ -4,7 +4,6 @@ const incidentFinder = require(path.join(__dirname, '..', 'jobs', 'findIncidents
 const resolvedIncidentRemover = require(path.join(__dirname, '..', 'jobs', 'removeResolvedIncidents'))
 const oldIncidentRemover = require(path.join(__dirname, '..', 'jobs', 'removeOldIncidents'))
 
-
 /**
  * Get valid date for tasks to execute
  *

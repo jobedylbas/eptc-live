@@ -10,7 +10,6 @@ const incidentRouter = require(path.join(__dirname, 'routes', 'incident'))
 const scheduler = require(path.join(__dirname, 'libs', 'jobScheduler'))
 const config = require(path.join(__dirname, 'config.js'))
 
-
 const port = config.web.port
 const app = express()
 app.use(helmet({

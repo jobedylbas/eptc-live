@@ -25,10 +25,6 @@ exports.findNewIncidents = async (sinceDate) => {
   await addNewIncidents(newIncidents)
 }
 
-
-
-
-
 /**
  * Add new valid incidents to database
  *
