@@ -1,9 +1,12 @@
+const { time } = require('console')
 const cron = require('node-cron')
 const path = require('path')
 const incidentFinder = require(path.join(__dirname, '..', 'jobs', 'findIncidents'))
 const resolvedIncidentRemover = require(path.join(__dirname, '..', 'jobs', 'removeResolvedIncidents'))
 const oldIncidentRemover = require(path.join(__dirname, '..', 'jobs', 'removeOldIncidents'))
 
+const timeLimit = 240
+const devTimeLimit = 600
 /**
  * Get valid date for tasks to execute
  *
@@ -29,7 +32,7 @@ const isComercialHour = () => {
   const day = d.getDay()
 
   if (day > 0 && day < 6) {
-    return (hour => 7 && hour <= 21)
+    return (hour => 7 && hour <= 22)
   }
   return false
 }
@@ -42,7 +45,7 @@ const isComercialHour = () => {
 exports.scheduleToFindNewIncidents = () => {
   cron.schedule('* * * * *', async () => {
     if (isComercialHour) {
-      incidentFinder.findNewIncidents(generateLimitDate(240))
+      incidentFinder.findNewIncidents(generateLimitDate(timeLimit))
     }
   })
 }
