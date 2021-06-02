@@ -56,7 +56,7 @@ app.use(function (err, req, res, next) {
 scheduler.scheduleToFindNewIncidents()
 scheduler.scheduleToRemoveIncidentsWithReply()
 
-if(process.env.NODE_ENV === 'production') {
+if(config.web.isProd) {
   scheduler.scheduleToRemoveOldIncidents()
 }
 

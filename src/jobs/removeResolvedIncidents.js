@@ -19,7 +19,7 @@ const incidentHelper = require(path.join(__dirname, '..', 'libs', 'incident'))
   
     tweets.forEach((tweet, index) => {
       if (replies[index].length !== 0) {
-        incidentHelper.deleteIncident(tweet.id)
+        incidentHelper.deleteIncidentById(tweet.id)
         removedIncidentsCounter += 1
       }
     })

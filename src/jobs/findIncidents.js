@@ -21,7 +21,7 @@ exports.findNewIncidents = async (sinceDate) => {
   const newIncidents = tweets.filter((tweet, index) => {
     if (replies[index].length === 0) return tweet
   })
-  
+  console.log(`Task terminated. Number of incidents found: ${newIncidents.length}`)
   await addNewIncidents(newIncidents)
 }
 
@@ -33,26 +33,33 @@ exports.findNewIncidents = async (sinceDate) => {
  * @param {Object[]} newIncidents - incidents finded
  */
 const addNewIncidents = async (newIncidents) => {
-  let incidentAddedCounter = 0
+  let localizedIncidentAddedCounter = 0
+  let incidentWithAddressCounter = 0
 
   for (let incident of newIncidents) {
-    const incidentAddress = addressHelper.parseIncidentLocation(incident.text)
-    const incidentExists = await incidentHelper.hasIncident(incident.id)
+    const incidentAddresses = addressHelper.parseIncidentLocation(incident.text)
     
-    if (incidentAddress !== '' && !incidentExists) {
-      const coordinates = await nominatim.getAddressCoordinates(incidentAddress)
-      incident = addIncidentCoordinates(incident, coordinates)
+    for (incidentAddress in incidentAddresses) {
+      incidentWithAddressCounter++
       
-      if (incident) {
-        await incidentHelper.createIncident(incident)
-        incidentAddedCounter++;
-      }
+      if (incidentAddress !== '') {
+        const coordinates = await nominatim.getAddressCoordinates(incidentAddress)
+        incident = addIncidentCoordinates(incident, coordinates)
 
-      await new Promise(resolve => setTimeout(resolve, nominatim.minimumTimePerRequest))
+        if (incident) {
+          if (incidentHelper.hasIncidentByLocation(incident.id)) {
+            await incidentHelper.createIncident(incident)
+          localizedIncidentAddedCounter++
+          }
+        }
+  
+        await new Promise(resolve => setTimeout(resolve, nominatim.minimumTimePerRequest))
+      }
     }
+    
   }
 
-  console.log(`Task terminated. Number of incidents added: ${incidentAddedCounter}`)
+  console.log(`Task terminated. Number of incidents added: ${localizedIncidentAddedCounter}`)
 }
 
 /**

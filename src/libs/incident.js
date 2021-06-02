@@ -46,7 +46,7 @@ exports.readIncidents = async () => {
  * @param {String}
  * @returns {Boolean}
  */
-    exports.hasIncident = async id => {
+    exports.hasIncidentById = async id => {
     const incident = await Incident.findOne({ id: id })
 
     return incident !== null
@@ -59,9 +59,21 @@ exports.readIncidents = async () => {
  * @function deleteIncident
  * @param {String} - id of incident to delete
  */
-exports.deleteIncident = async incidentId => {
-  await Incident.findOneAndDelete({ id: incidentId })
+exports.deleteIncidentById = async incidentId => {
+  await Incident.deleteMany({ id: incidentId })
 }
+
+/**
+ * 
+ *
+ * @async
+ * @function findIncidentByLocation
+ * @param {Object} - incident
+ */
+ exports.hasIncidentByLocation = async incident => {
+  await Incident.findOneAndDelete({ lat: incident.lat, lon: incident.lon })
+}
+
 
 /**
  * Remove incidents that exists for more than 4 hours
@@ -73,4 +85,3 @@ exports.deleteIncident = async incidentId => {
 exports.deleteOlderIncidents = async date => {
   await Incident.deleteMany({ date: { $lt: date } })
 }
-

@@ -6,7 +6,7 @@ const twitterApi = require(path.join(__dirname, '..', 'services', 'twitterApi'))
  * @type {Object}
  */
  const params = {
-  max_results: 100
+  max_results: 80
 }
 
 /**
@@ -43,7 +43,10 @@ const searchRepliesFromIncident = async (incidentId, resolve) => {
   // Edit query parameters below
   // specify a search query, and any additional fields that are required
   // by default, only the Tweet ID and text fields are returned
-  params.query = `is:reply from:EPTC_POA to:EPTC_POA conversation_id: ${incidentId}`
+  const resolvedIncidentWords = ['encerrada', 'encerrado', 'finalizada', 'finalizado', 'normalizada',
+                                  'normalizado', 'liberada', 'liberado', 'removido']
+  const resolvedIncidentQuery = resolvedIncidentWords.join(' OR ')
+  params.query = `${resolvedIncidentQuery} is:reply from:EPTC_POA to:EPTC_POA conversation_id: ${incidentId}`
   params['tweet.fields'] = 'conversation_id'
 
   const res = await twitterApi.getTweets(params)
@@ -79,15 +82,15 @@ const createQuery = () => {
   const treeQuery = '((árvore (caída OR queda)) OR (galho (caído OR queda)))'
   const incidentQuery = '(acidente OR colisão OR atropelamento OR (queda moto))'
   const liquidQuery = '(derramado OR derramamento)'
-  const breakQuery = '(pane)'
-  const blockQuery = '(bloqueio)'
+  const breakQuery = 'pane'
+  const blockQuery = 'bloqueio'
   const electricQuery = '((fios (caídos OR queda OR suspensos OR sobre)) OR (fiação (caída OR suspensa OR sobre)))'
-  const bridgeQuery = '(içamento (acontece OR iniciado OR ocorre OR andamento OR (em operação)))'
-  const horseQuery = '((cavalo solto) OR (cavalos soltos))'
+  const bridgeQuery = '(içamento (acontece OR iniciado OR ocorre OR andamento OR operação))'
+  const horseQuery = '(cavalo solto) OR (cavalos soltos)'
   const allQueries = [treeQuery, incidentQuery, liquidQuery, breakQuery, 
                     blockQuery, electricQuery, bridgeQuery, horseQuery]
 
   const stringQuery = allQueries.join(' OR ')
 
-  return `(${stringQuery}) -is:reply from:EPTC_POA`
+  return `(${stringQuery}) from:EPTC_POA`
 }
