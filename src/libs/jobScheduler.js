@@ -7,7 +7,7 @@ const resolvedIncidentRemover = require(path.join(__dirname, '..', 'jobs', 'remo
 const oldIncidentRemover = require(path.join(__dirname, '..', 'jobs', 'removeOldIncidents'))
 
 const prodTimeLimit = 240
-const devTimeLimit = 10050
+const devTimeLimit = 8640
 
 /**
  * Get valid date for tasks to execute

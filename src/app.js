@@ -7,6 +7,8 @@ const helmet = require('helmet')
 const path = require('path')
 const indexRouter = require(path.join(__dirname, 'routes', 'index'))
 const incidentRouter = require(path.join(__dirname, 'routes', 'incident'))
+const incidentMetricsRouter = require(path.join(__dirname, 'routes', 'incidentMetrics'))
+
 const scheduler = require(path.join(__dirname, 'libs', 'jobScheduler'))
 const config = require(path.join(__dirname, 'config.js'))
 
@@ -35,6 +37,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')))
 // Routes
 app.use('/', indexRouter)
 app.use('/incident', incidentRouter)
+app.use('/incident-metrics', incidentMetricsRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

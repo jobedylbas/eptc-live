@@ -11,7 +11,6 @@
     
     const numbers = tmpText.match(/(,| )\d+?( |\n|)*(?=,|\.)/g)
     const streets = tmpText.match(/\b((av)|(r\.)|(rua)|(estr)|(trav)|(beco))+((.+?)(?=(,|\.|\n|(\d+(?=,|\.|\n)))))/g)
-    
     // Check if has street and number
     if (streets && numbers) {
       let addresses = []
@@ -34,7 +33,7 @@
     }
     
     if(!streets) {
-      // Check if it is Pont do Guaíba
+      // Check if it is Ponte do Guaíba
       if (bridgeQueries.some((word) => tmpText.includes(word))) {
         return ['ponte do guaíba']
       }

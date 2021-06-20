@@ -3,10 +3,10 @@ const Incident = require(path.join(__dirname, '..', 'models', 'incident'))
 
 /**
  * Find all incidents on database
- * returning only text and emoji
  *
  * @async
  * @function readIncidents
+ * @returns {Object[]} - list of incidents
  */
 
   exports.readIncidents = async () => {

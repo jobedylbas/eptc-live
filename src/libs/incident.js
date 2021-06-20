@@ -71,7 +71,9 @@ exports.deleteIncidentById = async incidentId => {
  * @param {Object} - incident
  */
  exports.hasIncidentByLocation = async incident => {
-  await Incident.findOneAndDelete({ lat: incident.lat, lon: incident.lon })
+  const result = await Incident.findOne({ lat: incident.lat, lon: incident.lon })
+
+  return result !== null
 }
 
 
