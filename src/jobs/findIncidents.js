@@ -25,7 +25,6 @@ exports.findNewIncidents = async (sinceDate) => {
     if (replies[index].length === 0) return tweet
   })
   console.log(`Number of incidents found without reply: ${newIncidents.length}`)
-  console.log(newIncidents)
   await addNewIncidents(newIncidents)
 }
 
