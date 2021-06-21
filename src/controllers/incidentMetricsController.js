@@ -11,6 +11,15 @@ const IncidentMetrics = require(path.join(__dirname, '..', 'models', 'incidentMe
 
   exports.readIncidentsMetrics = async () => {
   const incidentMetrics = await IncidentMetrics.find({})
+  
+  const metrics = incidentMetrics.map(incidentMetric => {
+    return {
+      id: incidentMetric.id,
+      type: incidentMetric.type,
+      hasAddress: incidentMetric.hasAddress,
+      isLocalized: incidentMetric.isLocalized
+    }
+  })
 
-  return incidentMetrics
+  return metrics
 }
