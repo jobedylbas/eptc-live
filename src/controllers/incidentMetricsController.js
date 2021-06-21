@@ -16,6 +16,7 @@ const IncidentMetrics = require(path.join(__dirname, '..', 'models', 'incidentMe
     return {
       id: incidentMetric.id,
       type: incidentMetric.type,
+      date: incidentMetric.date,
       hasAddress: incidentMetric.hasAddress,
       isLocalized: incidentMetric.isLocalized
     }
