@@ -1,7 +1,5 @@
 const path = require('path');
 const IncidentMetrics = require(path.join(__dirname, '..', 'models', 'incidentMetrics'))
-const emojiHelper = require(path.join(__dirname, 'emoji'))
-
 
 /**
  * Insert incident metrics
@@ -16,7 +14,7 @@ exports.createIncidentMetrics = async (incident, hasAddress, isLocalized) => {
   const incidentMetrics = new IncidentMetrics({
     id: incident.id,
     date: incident.created_at,
-    type: emojiHelper.getEmojiCode(incident.text),
+    type: getIncidentType(incident.text),
     hasAddress: hasAddress,
     isLocalized: isLocalized
   })
@@ -50,4 +48,55 @@ exports.createIncidentMetrics = async (incident, hasAddress, isLocalized) => {
   const incidentMetrics = await IncidentMetrics.findOne({ id: id })
 
   return incidentMetrics !== null
+}
+
+/**
+ * Create a query to find the emoji for each case
+ * 
+ * @function createEmojiQuery 
+ * @returns {Object[]} - list of query for each emoji
+ */
+ const createIncidentTypeQuery = () => {
+  const runOverQuery = ['atropelamento']
+  const incidentQuery = ['acidente', 'colisão']
+  const motorcycle = ['queda de moto']
+  const liquidQuery = ['derramado', 'derramamento']
+  const breakQuery = ['pane']
+  const treeQuery = ['árvore', 'galho']
+  const blockQuery = ['bloqueio']
+  const electricQuery = ['fios', 'fiação']
+  const bridgeQuery = ['içamento']
+  const horseQuery = ['caval']
+
+  // Order is important
+  const queries = [runOverQuery, motorcycle, incidentQuery, liquidQuery, breakQuery, treeQuery, 
+                  blockQuery, electricQuery, bridgeQuery, horseQuery]
+
+  return queries
+}
+/**
+ * Get emoji code that represents the incident
+ *
+ * @function getEmojiCode
+ * @param {String} text - Incident text to find the representable emoji
+ * @returns - string with emoji code
+ */
+ const getIncidentType = text => {
+    const queries = createIncidentTypeQuery()
+    let type = 1
+    let found = true
+  
+    queries.every((query, index) => {
+      query.some((word) => {
+        if (text.toLowerCase().includes(word)) {
+          type = index
+          found = false
+          return true
+        }
+        return false
+      })
+      return found
+    })
+
+    return type
 }

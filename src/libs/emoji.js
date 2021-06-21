@@ -6,20 +6,21 @@
  */
 const createEmojiQuery = () => {
   const incidentQuery = ['acidente', 'colisão', 'atropelamento',  'moto']
-    const liquidQuery = ['derramado', 'derramamento']
-    const breakQuery = ['pane']
-    const treeQuery = ['árvore', 'galho']
-    const blockQuery = ['bloqueio']
-    const electricQuery = ['fios', 'fiação']
-    const bridgeQuery = ['içamento']
-    const horseQuery = ['caval']
+  const liquidQuery = ['derramado', 'derramamento']
+  const breakQuery = ['pane']
+  const treeQuery = ['árvore', 'galho']
+  const blockQuery = ['bloqueio']
+  const electricQuery = ['fios', 'fiação']
+  const bridgeQuery = ['içamento']
+  const horseQuery = ['caval']
 
-    // Order is important
-    const queries = [incidentQuery, liquidQuery, breakQuery, treeQuery, 
-                    blockQuery, electricQuery, bridgeQuery, horseQuery]
+  // Order is important
+  const queries = [incidentQuery, liquidQuery, breakQuery, treeQuery, 
+                  blockQuery, electricQuery, bridgeQuery, horseQuery]
 
-    return queries
+  return queries
 }
+
 /**
  * Get emoji code that represents the incident
  *
@@ -46,4 +47,4 @@ const createEmojiQuery = () => {
     })
   
     return emojiCode
-  }
+}
