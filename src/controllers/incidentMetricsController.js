@@ -9,7 +9,7 @@ const IncidentMetrics = require(path.join(__dirname, '..', 'models', 'incidentMe
  * @return {Object[]} - list of incidentMetrics
  */
 
-  exports.readIncidentsMetrics = async () => {
+exports.readIncidentsMetrics = async () => {
   const incidentMetrics = await IncidentMetrics.find({})
   
   const metrics = incidentMetrics.map(incidentMetric => {

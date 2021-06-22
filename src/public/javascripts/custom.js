@@ -1,7 +1,7 @@
 const DEFAULT_CENTER = [-30.04, -51.22]
 const DEFAULT_ZOOM = 13
 const MOBILE_CENTER = [-30.04, -51.19]
-const DEFAULT_INTERVAL = 60000
+const DEFAULT_INTERVAL = 30000
 const DEFAULT_ZOOM_POSITION = 'bottomright'
 const DEFAULT_ICON_SIZE = 42
 var markers = []
@@ -166,8 +166,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     })
 
     map.on("load", () => { setTimeout(() => {
-      self.map.invalidateSize();
-      }, 400); 
+      map.invalidateSize();
+      }, 800); 
     });
 
     window.addEventListener('resize', () => {
