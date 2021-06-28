@@ -58,7 +58,7 @@ exports.createIncidentMetrics = async (incident, hasAddress, isLocalized) => {
  */
  const createIncidentTypeQuery = () => {
   const runOverQuery = ['atropelamento']
-  const incidentQuery = ['acidente', 'colisão']
+  const incidentQuery = ['acidente', 'colisão', 'capotado']
   const motorcycle = ['queda de moto']
   const liquidQuery = ['derramado', 'derramamento']
   const breakQuery = ['pane']

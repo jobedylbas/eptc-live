@@ -5,7 +5,7 @@
  * @returns {Object[]} - list of query for each emoji
  */
 const createEmojiQuery = () => {
-  const incidentQuery = ['acidente', 'colisão', 'atropelamento',  'moto']
+  const incidentQuery = ['acidente', 'colisão', 'atropelamento', 'capotado', 'moto']
   const liquidQuery = ['derramado', 'derramamento']
   const breakQuery = ['pane']
   const treeQuery = ['árvore', 'galho']
