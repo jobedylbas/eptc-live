@@ -77,7 +77,7 @@ const createQuery = () => {
   const incidentQuery = '(acidente OR colisão OR atropelamento OR capotado OR (queda moto))'
   const liquidQuery = '(derramado OR derramamento)'
   const breakQuery = '(pane)'
-  const blockQuery = '(bloqueio)'
+  const blockQuery = '(bloqueio OR obras OR obra)'
   const electricQuery = '((fios (caídos OR queda OR suspensos OR sobre)) OR (fiação (caída OR suspensa OR sobre)))'
   const bridgeQuery = '(içamento (acontece OR iniciado OR ocorre OR andamento OR (em operação)))'
   const horseQuery = '((cavalo solto) OR (cavalos soltos))'

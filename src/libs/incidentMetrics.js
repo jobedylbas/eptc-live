@@ -63,7 +63,7 @@ exports.createIncidentMetrics = async (incident, hasAddress, isLocalized) => {
   const liquidQuery = ['derramado', 'derramamento']
   const breakQuery = ['pane']
   const treeQuery = ['árvore', 'galho']
-  const blockQuery = ['bloqueio']
+  const blockQuery = ['bloqueio', 'obra']
   const electricQuery = ['fios', 'fiação']
   const bridgeQuery = ['içamento']
   const horseQuery = ['caval']
