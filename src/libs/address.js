@@ -10,7 +10,7 @@
     const bridgeQueries = ['vão móvel', 'ponte', 'guaíba']
     
     const numbers = tmpText.match(/(,| )\d+?( |\n|)*(?=,|\.)/g)
-    const streets = tmpText.match(/\b((av)|(av.)|(r\.)|(rua)|(estr)|(estr.)|(trav)|(trav.)|(beco))+((.+?)(?=(,|\.|\n|(\d+(?=,|\.|\n)))))/g)
+    const streets = tmpText.match(/\b((av)|(r\.)|(rua)|(estr)|(trav)|(beco))+((.+?)(?=(,|\.|\n|(\d+(?=,|\.|\n)))))/g)
     // Check if has street and number
     if (streets && numbers) {
       let addresses = []
