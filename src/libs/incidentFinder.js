@@ -74,7 +74,7 @@ exports.searchIncidents = async sinceDate => {
  */
 const createQuery = () => {
   const treeQuery = '((árvore (caída OR queda)) OR (galho (caído OR queda)))'
-  const incidentQuery = '(acidente OR colisão OR atropelamento OR capotado OR (queda moto))'
+  const incidentQuery = '(acidente OR colisão OR atropelamento OR capotado OR (queda moto) OR (queda moticiclista))'
   const liquidQuery = '(derramado OR derramamento)'
   const breakQuery = '(pane)'
   const blockQuery = '(bloqueio OR obras OR obra)'
