@@ -2,7 +2,7 @@
  * Create a query to find the emoji for each case
  * 
  * @function createEmojiQuery 
- * @returns {Object[]} - list of query for each emoji
+ * @return {Object[]} list of query for each emoji
  */
 const createEmojiQuery = () => {
   const incidentQuery = ['acidente', 'colisão', 'atropelamento', 'capotado', 'moto']
@@ -26,7 +26,7 @@ const createEmojiQuery = () => {
  *
  * @function getEmojiCode
  * @param {String} text - Incident text to find the representable emoji
- * @returns - string with emoji code
+ * @return - string with emoji code
  */
  exports.getEmojiCode = text => {
     const queries = createEmojiQuery()

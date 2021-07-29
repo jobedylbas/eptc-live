@@ -4,6 +4,10 @@ const MOBILE_CENTER = [-30.04, -51.19]
 const DEFAULT_INTERVAL = 30000
 const DEFAULT_ZOOM_POSITION = 'bottomright'
 const DEFAULT_ICON_SIZE = 42
+const MOBILE_ICON_SIZE = 72
+const GET_ALERTS_INTERVAL = 900000
+const MAP_TIMEOUT = 400
+const MAP_INVALIDATE_TIMEOUT = 800
 var markers = []
 
 /**
@@ -13,16 +17,10 @@ var markers = []
  * @param {Object} map - map to set on center
  */
 const setMap = map => {
-  let tileSize = 256
-  let zoomOffset = 0
+  let tileSize = 256;
+  let zoomOffset = 0;
 
-  if (window.screen.width <= 1024) {
-    map.setView(MOBILE_CENTER, DEFAULT_ZOOM)
-    tileSize = 512
-    zoomOffset = -1
-  } else {
-    map.setView(DEFAULT_CENTER, DEFAULT_ZOOM)
-  }
+  centerMap(map);
 
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -30,6 +28,21 @@ const setMap = map => {
     tileSize: tileSize,
     zoomOffset: zoomOffset,
   }).addTo(map);
+}
+
+/**
+ * Center the map
+ * 
+ * @param {Object} map
+ */
+const centerMap = map => {
+  if (window.screen.width <= 1024) {
+    map.setView(MOBILE_CENTER, DEFAULT_ZOOM)
+    tileSize = 512
+    zoomOffset = -1
+  } else {
+    map.setView(DEFAULT_CENTER, DEFAULT_ZOOM)
+  }
 }
 
 /**
@@ -42,7 +55,7 @@ const setMap = map => {
 const createMarkerIcon = iconUrl => {
   return L.icon({
     iconUrl: iconUrl,
-    iconSize: [DEFAULT_ICON_SIZE, DEFAULT_ICON_SIZE]
+    iconSize: window.screen.width <= 1024 ? [MOBILE_ICON_SIZE, MOBILE_ICON_SIZE] : [DEFAULT_ICON_SIZE, DEFAULT_ICON_SIZE]
   })
 }
 
@@ -50,8 +63,8 @@ const createMarkerIcon = iconUrl => {
  * Get url from emoji image
  *
  * @function
- * @param {string} emojiCode - string that represents an emoji
- * @returns string url where the emoji image is
+ * @param {string} emojiCode - string that represents an emoji code
+ * @return {string} string url where the emoji image is
  */
 const getIconUrl = emojiCode => {
   const code = twemoji.convert.fromCodePoint(emojiCode)
@@ -81,17 +94,36 @@ const shouldRemoveTwitter = () => {
 }
 
 /**
- * Remove Alert of no Incident
+ * Show no incident alert
  *
- * @function shouldRemoveNoIncidentAlert
+ * @function shouldShowNoIncidentAlert
  * @param {Bool} bool
  */
-const shouldAddNoIncidentAlert = (bool) => {
+const shouldShowNoIncidentAlert = bool => {
   const alert = document.getElementById('no-incident-alert')
   if (bool) {
     alert.style.visibility = 'visible'
+    alert.style.display = 'block'
   } else {
     alert.style.visibility = 'hidden'
+    alert.style.display = 'none'
+  }
+}
+
+/**
+ * Show storm alert
+ *
+ * @function shouldShowStormAlert
+ * @param {Bool} bool
+ */
+ const shouldShowStormAlert = bool => {
+  const alert = document.getElementById('storm-alert')
+  if (bool) {
+    alert.style.visibility = 'visible'
+    alert.style.display = 'block'
+  } else {
+    alert.style.visibility = 'hidden'
+    alert.style.display = 'none'
   }
 }
 
@@ -100,7 +132,7 @@ const shouldAddNoIncidentAlert = (bool) => {
  *
  * @async
  * @function getIncidents
- * @returns incidents with its coordinates
+ * @return incidents with its coordinates
  */
 const getIncidents = async () => {
   const tweets = await fetch('/incident/incidents')
@@ -152,9 +184,9 @@ const findNewIncidents = async (map) => {
 
   if (incidents.length !== 0) {
     addIncidentsOnMap(map, incidents)
-    shouldAddNoIncidentAlert(false)
+    shouldShowNoIncidentAlert(false)
   } else {
-    shouldAddNoIncidentAlert(true)
+    shouldShowNoIncidentAlert(true)
   }
 }
 
@@ -163,32 +195,126 @@ document.addEventListener('DOMContentLoaded', async () => {
     const map = L.map('map', {
       tap: false,
       zoomControl: false
-    })
-
-    map.on("load", () => { setTimeout(() => {
-      map.invalidateSize();
-      }, 800); 
     });
 
-    window.addEventListener('resize', () => {
-      shouldRemoveTwitter()
-      setMap(map)
-    })
+    shouldShowStormAlert(false);
 
-    setTimeout(() => {
-      setMap(map);
+    await setupMap(map);
 
-      L.control.zoom({
-        position: DEFAULT_ZOOM_POSITION
-      }).addTo(map);
-    }, 400)
+    await setupStormAlert();
 
-    shouldRemoveTwitter()
+    shouldRemoveTwitter();
 
-    findNewIncidents(map)
-
-    setInterval(async () => {
-      await findNewIncidents(map)
-    }, DEFAULT_INTERVAL)
+    setupResizeEvent(map);
   }
 })
+
+/**
+ * Setup map
+ * 
+ * @async
+ * @function setupMap
+ */
+const setupMap = async (map) => {
+  map.on("load", () => { setTimeout(() => {
+    map.invalidateSize();
+    }, MAP_INVALIDATE_TIMEOUT); 
+  });
+
+  setTimeout(() => {
+    setMap(map);
+
+    L.control.zoom({
+      position: DEFAULT_ZOOM_POSITION
+    }).addTo(map);
+  }, MAP_TIMEOUT);
+
+  findNewIncidents(map);
+
+  setInterval(async () => {
+    await findNewIncidents(map)
+  }, DEFAULT_INTERVAL);
+}
+
+/**
+ * Setup resize event
+ * 
+ * @function setupResizeEvent
+ */
+const setupResizeEvent = map => {
+  window.addEventListener('resize', () => {
+    shouldRemoveTwitter();
+    centerMap(map);
+    findNewIncidents(map);
+  });
+}
+
+/**
+ * Setup storm alert
+ * 
+ * @async
+ * @function setupStormAlert
+ */
+const setupStormAlert = async () => {
+  const alerts = await getAlerts()
+  shouldShowStormAlert(hasStormAlert(alerts))
+
+  setInterval(async () => {
+    const alerts = await getAlerts()
+    shouldShowStormAlert(hasStormAlert(alerts))
+  }, GET_ALERTS_INTERVAL)
+}
+
+/**
+ * Get metereological alerts from Alert-AS
+ *
+ * @async
+ * @function getAlerts
+ * @return {Object[]} with tweets based on params
+ */
+const getAlerts = async () => {
+  const rssEndpoint = 'https://alerts.inmet.gov.br/cap_12/rss/alert-as.rss';
+  
+  const res = await fetch(rssEndpoint)
+      .then(response => response.text())
+      .then(data => {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(data, "application/xml");
+        return [...xmlDoc.getElementsByTagName('item')];
+      })
+      .catch(console.error);
+  
+  return res || []
+}
+
+/**
+ * Check if has to show storm alert
+ *
+ * @function hasStormAlert
+ * @return {Bool} true if has to show storm alert
+ */
+const hasStormAlert = xml => {
+  const fisiologicalArea = 'depressão central';
+  const stormWord = 'geada';
+
+  return xml.some(item => {
+    const itemTitle = item.childNodes[1].innerHTML.toLowerCase();
+    const itemDescription = item.childNodes[5].innerHTML.toLowerCase();
+    const itemDate = new Date(item.childNodes[7].innerHTML);
+
+    return (itemTitle.includes(stormWord) && itemDescription.includes(fisiologicalArea) && isToday(itemDate)); 
+  })
+}
+
+/**
+ * Check if date is today
+ *
+ * @function isToday
+ * @return {Bool} true if date is today, else false
+ */
+const isToday = someDate => {
+  const today = new Date()
+  return someDate.getDate() == today.getDate() &&
+    someDate.getMonth() == today.getMonth() &&
+    someDate.getFullYear() == today.getFullYear()
+}

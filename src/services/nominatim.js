@@ -7,7 +7,7 @@ exports.minimumTimePerRequest = 970
  *
  * @function createSearchAddressQuery
  * @param {object} address - Dic with params to bem transformed
- * @returns {string} search query in string format
+ * @return {string} search query in string format
  */
  const createSearchAddressQuery = address => {
   const searchParams = {
@@ -26,7 +26,7 @@ exports.minimumTimePerRequest = 970
  * @async
  * @function getIncidentCoordinates
  * @param {string} address
- * @returns {object} lat and lon coordinates
+ * @return {object} lat and lon coordinates
  * @throws on unsucessful request
  */
  exports.getAddressCoordinates = async address => {

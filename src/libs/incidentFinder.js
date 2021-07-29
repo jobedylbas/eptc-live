@@ -7,7 +7,7 @@ const twitterApi = require(path.join(__dirname, '..', 'services', 'twitterApi'))
  * @async
  * @function getRepliesFromIncidents
  * @param {Array} incidentIds - tweet ids of incidents
- * @returns array of reply objects for each incident
+ * @return array of reply objects for each incident
  */
 exports.searchRepliesOfIncidents = incidentsIds => {
   const promises = []
@@ -29,7 +29,7 @@ exports.searchRepliesOfIncidents = incidentsIds => {
  * @async
  * @function getRepliestFromIncident
  * @param {Number} incidentId - incidentId to get replies
- * @returns {Object} with replied tweets from the incident tweet
+ * @return {Object} with replied tweets from the incident tweet
  */
 const searchRepliesFromIncident = async (incidentId, resolve) => {
   // Edit query parameters below
@@ -52,7 +52,7 @@ const searchRepliesFromIncident = async (incidentId, resolve) => {
  * @async
  * @function searchIncidents
  * @param {string} sinceDate - UTC ISO string representing start time of incidents
- * @returns {Object} - Tweets of the incidents
+ * @return {Object} Tweets of the incidents
  */
 exports.searchIncidents = async sinceDate => {
   const params = {}
@@ -70,7 +70,7 @@ exports.searchIncidents = async sinceDate => {
  * Create query for incident types
  * 
  * @function
- * @returns string with query to get tweets
+ * @return string with query to get tweets
  */
 const createQuery = () => {
   const treeQuery = '((árvore (caída OR queda)) OR (galho (caído OR queda)))'
@@ -80,7 +80,7 @@ const createQuery = () => {
   const blockQuery = '(bloqueio OR obras OR obra)'
   const electricQuery = '((fios (caídos OR queda OR suspensos OR sobre)) OR (fiação (caída OR suspensa OR sobre)))'
   const bridgeQuery = '(içamento (acontece OR iniciado OR ocorre OR andamento OR (em operação)))'
-  const horseQuery = '((cavalo solto) OR (cavalos (soltos OR (na via))))'
+  const horseQuery = '((cavalo OR cavalos) (solto OR soltos OR (na (via OR pista))))'
   const allQueries = [treeQuery, incidentQuery, liquidQuery, breakQuery, 
                     blockQuery, electricQuery, bridgeQuery, horseQuery]
 

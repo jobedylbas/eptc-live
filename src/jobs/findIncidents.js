@@ -81,7 +81,7 @@ const addNewIncidents = async (newIncidents) => {
  * 
  * @function addIncidentCoordinates
  * @param {Object} incident - Tweet
- * @returns {Object} - Lat and Long object
+ * @return {Object} Lat and Long object
  */
 const addIncidentCoordinates = (incident, coordinates) => {
   if (coordinates) {

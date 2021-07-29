@@ -44,7 +44,7 @@ exports.readIncidents = async () => {
  * @async
  * @function hasIncident
  * @param {String}
- * @returns {Boolean}
+ * @return {Boolean}
  */
     exports.hasIncidentById = async id => {
     const incident = await Incident.findOne({ id: id })
@@ -57,7 +57,7 @@ exports.readIncidents = async () => {
  *
  * @async
  * @function deleteIncident
- * @param {String} - id of incident to delete
+ * @param {String} id of incident to delete
  */
 exports.deleteIncidentById = async incidentId => {
   await Incident.deleteMany({ id: incidentId })
@@ -68,7 +68,7 @@ exports.deleteIncidentById = async incidentId => {
  *
  * @async
  * @function findIncidentByLocation
- * @param {Object} - incident
+ * @param {Object} incident
  */
  exports.hasIncidentByLocation = async incident => {
   const result = await Incident.findOne({ lat: incident.lat, lon: incident.lon })

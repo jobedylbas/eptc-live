@@ -42,7 +42,7 @@ exports.createIncidentMetrics = async (incident, hasAddress, isLocalized) => {
  * @async
  * @function hasIncidentMetrics
  * @param {String}
- * @returns {Boolean}
+ * @return {Boolean}
  */
  exports.hasIncidentMetricsById = async id => {
   const incidentMetrics = await IncidentMetrics.findOne({ id: id })
@@ -54,7 +54,7 @@ exports.createIncidentMetrics = async (incident, hasAddress, isLocalized) => {
  * Create a query to find the emoji for each case
  * 
  * @function createEmojiQuery 
- * @returns {Object[]} - list of query for each emoji
+ * @return {Object[]} list of query for each emoji
  */
  const createIncidentTypeQuery = () => {
   const runOverQuery = ['atropelamento']
@@ -79,7 +79,7 @@ exports.createIncidentMetrics = async (incident, hasAddress, isLocalized) => {
  *
  * @function getEmojiCode
  * @param {String} text - Incident text to find the representable emoji
- * @returns - string with emoji code
+ * @return - string with emoji code
  */
  const getIncidentType = text => {
     const queries = createIncidentTypeQuery()

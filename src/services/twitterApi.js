@@ -22,7 +22,7 @@ const endpointUrl = 'https://api.twitter.com/2/tweets/search/recent'
  * @async
  * @function getTweets
  * @param {Object} queryObject - query to search tweets
- * @returns {Object} - with tweets based on params
+ * @return {Object} with tweets based on params
  * @throws on unsuccessul request
  */
 exports.getTweets = async queryObject => {

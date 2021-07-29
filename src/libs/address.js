@@ -3,7 +3,7 @@
  *
  * @function parseIncidentLocation
  * @param {string} incidentText - Usually a tweet text from EPTC_POA
- * @returns {Object} address on format: Number St. Name
+ * @return {Object} address on format: Number St. Name
  */
  exports.parseIncidentLocation = incidentText => {
     const tmpText = incidentText.toString().toLowerCase().slice(8).replace(/https?:\/\/(.*)/, '')

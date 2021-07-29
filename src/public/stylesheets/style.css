@@ -62,8 +62,18 @@ img.emoji {
     font-weight: 400 !important;
 }
 
+.alert-storm {
+    background-color: #ffd199;
+    border-color: #ffc680;
+    color: #804600;
+}
+
 .ps {
     font-size: 0.75rem;
+}
+
+.emoji {
+    font-size: 1rem;
 }
 
 @media screen and (max-width: 719px) {

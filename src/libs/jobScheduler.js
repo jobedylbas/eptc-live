@@ -13,7 +13,7 @@ const devTimeLimit = 8640
  * Get valid date for tasks to execute
  *
  * @function generateLimitDate
- * @returns - date to be used on tasks
+ * @return - date to be used on tasks
  */
 const generateLimitDate = (lessMinutes) => {
   const d = new Date()
@@ -26,7 +26,7 @@ const generateLimitDate = (lessMinutes) => {
  * Verify date is at comercial hour
  * 
  * @function isComercialHour
- * @returns true if is comercial hour or false if it is not
+ * @return true if is comercial hour or false if it is not
  */
 const isComercialHour = () => {
   const d = new Date()

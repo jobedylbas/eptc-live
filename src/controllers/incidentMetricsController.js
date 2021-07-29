@@ -6,7 +6,7 @@ const IncidentMetrics = require(path.join(__dirname, '..', 'models', 'incidentMe
  *
  * @async
  * @function readIncidentsMetrics
- * @return {Object[]} - list of incidentMetrics
+ * @return {Object[]} list of incidentMetrics
  */
 
 exports.readIncidentsMetrics = async () => {
