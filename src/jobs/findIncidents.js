@@ -42,7 +42,7 @@ const addNewIncidents = async (newIncidents) => {
 
   for (let incident of newIncidents) {
     const incidentAddresses = addressHelper.parseIncidentLocation(incident.text)
-    
+  
     for (let incidentAddress of incidentAddresses) {
       if (incidentAddress !== '') {
         const coordinates = await nominatim.getAddressCoordinates(incidentAddress)

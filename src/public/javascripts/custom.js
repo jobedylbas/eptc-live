@@ -295,7 +295,7 @@ const getAlerts = async () => {
  */
 const hasStormAlert = xml => {
   const fisiologicalArea = 'depressão central';
-  const stormWord = 'geada';
+  const stormWord = 'tempestade';
 
   return xml.some(item => {
     const itemTitle = item.childNodes[1].innerHTML.toLowerCase();
