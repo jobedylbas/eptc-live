@@ -69,7 +69,7 @@ exports.searchIncidents = async sinceDate => {
 /**
  * Create query for incident types
  * 
- * @function
+ * @function createQuery
  * @return string with query to get tweets
  */
 const createQuery = () => {
