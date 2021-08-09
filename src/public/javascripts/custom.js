@@ -1,14 +1,14 @@
-const DEFAULT_CENTER = [-30.04, -51.22]
-const DEFAULT_ZOOM = 13
-const MOBILE_CENTER = [-30.04, -51.19]
-const DEFAULT_INTERVAL = 30000
-const DEFAULT_ZOOM_POSITION = 'bottomright'
-const DEFAULT_ICON_SIZE = 42
-const MOBILE_ICON_SIZE = 72
-const GET_ALERTS_INTERVAL = 900000
-const MAP_TIMEOUT = 400
-const MAP_INVALIDATE_TIMEOUT = 800
-var markers = []
+const DEFAULT_CENTER = [-30.04, -51.22];
+const DEFAULT_ZOOM = 13;
+const MOBILE_CENTER = [-30.04, -51.19];
+const DEFAULT_INTERVAL = 30000;
+const DEFAULT_ZOOM_POSITION = 'bottomright';
+const DEFAULT_ICON_SIZE = 42;
+const MOBILE_ICON_SIZE = 72;
+const GET_ALERTS_INTERVAL = 900000;
+const MAP_TIMEOUT = 400;
+const MAP_INVALIDATE_TIMEOUT = 800;
+var markers = [];
 
 /**
  * Set map on best center I found
@@ -37,11 +37,11 @@ const setMap = map => {
  */
 const centerMap = map => {
   if (window.screen.width <= 1024) {
-    map.setView(MOBILE_CENTER, DEFAULT_ZOOM)
-    tileSize = 512
-    zoomOffset = -1
+    map.setView(MOBILE_CENTER, DEFAULT_ZOOM);
+    tileSize = 512;
+    zoomOffset = -1;
   } else {
-    map.setView(DEFAULT_CENTER, DEFAULT_ZOOM)
+    map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
   }
 }
 
@@ -56,7 +56,7 @@ const createMarkerIcon = iconUrl => {
   return L.icon({
     iconUrl: iconUrl,
     iconSize: window.screen.width <= 1024 ? [MOBILE_ICON_SIZE, MOBILE_ICON_SIZE] : [DEFAULT_ICON_SIZE, DEFAULT_ICON_SIZE]
-  })
+  });
 }
 
 /**
@@ -72,10 +72,10 @@ const getIconUrl = emojiCode => {
     folder: 'svg',
   	ext: '.svg'
   })
-  const div = document.createElement('div')
-  div.innerHTML = emojiHtml
+  const div = document.createElement('div');
+  div.innerHTML = emojiHtml;
 
-  return div.getElementsByClassName('emoji')[0].src
+  return div.getElementsByClassName('emoji')[0].src;
 }
 
 /**
@@ -85,11 +85,11 @@ const getIconUrl = emojiCode => {
  */
 const shouldRemoveTwitter = () => {
   if (window.screen.width < 768) {
-    document.getElementById('twitter-widget').style.visibility = 'hidden'
-    document.getElementById('twitter-widget').style.display = 'none'
+    document.getElementById('twitter-widget').style.visibility = 'hidden';
+    document.getElementById('twitter-widget').style.display = 'none';
   } else {
-    document.getElementById('twitter-widget').style.visibility = 'visible'
-    document.getElementById('twitter-widget').style.display = 'inline-block'
+    document.getElementById('twitter-widget').style.visibility = 'visible';
+    document.getElementById('twitter-widget').style.display = 'inline-block';
   }
 }
 
@@ -100,30 +100,37 @@ const shouldRemoveTwitter = () => {
  * @param {Bool} bool
  */
 const shouldShowNoIncidentAlert = bool => {
-  const alert = document.getElementById('no-incident-alert')
+  const alert = document.getElementById('no-incident-alert');
   if (bool) {
-    alert.style.visibility = 'visible'
-    alert.style.display = 'block'
+    alert.style.visibility = 'visible';
+    alert.style.display = 'block';
   } else {
-    alert.style.visibility = 'hidden'
-    alert.style.display = 'none'
+    alert.style.visibility = 'hidden';
+    alert.style.display = 'none';
   }
 }
 
 /**
- * Show storm alert
+ * Show metereological alert
  *
- * @function shouldShowStormAlert
+ * @function shouldShowMetereologicalAlert
  * @param {Bool} bool
  */
- const shouldShowStormAlert = bool => {
-  const alert = document.getElementById('storm-alert')
+ const shouldShowMetereologicalAlert = (bool = false, text = "", type = "") => {
+  const alert = document.getElementById('metereological-alert');
   if (bool) {
-    alert.style.visibility = 'visible'
-    alert.style.display = 'block'
+    alert.style.visibility = 'visible';
+    alert.style.display = 'block';
+  
+    alert.classList.remove('alert-info');
+    alert.classList.remove('alert-warning');
+    alert.classList.remove('alert-orange');
+    
+    alert.innerHTML = text;
+    alert.classList.add(type);
   } else {
-    alert.style.visibility = 'hidden'
-    alert.style.display = 'none'
+    alert.style.visibility = 'hidden';
+    alert.style.display = 'none';
   }
 }
 
@@ -136,9 +143,9 @@ const shouldShowNoIncidentAlert = bool => {
  */
 const getIncidents = async () => {
   const tweets = await fetch('/incident/incidents')
-    .then(result => result.json())
+    .then(result => result.json());
 
-  return tweets
+  return tweets;
 }
 
 /**
@@ -154,9 +161,9 @@ const addIncidentsOnMap = (map, incidents) => {
       icon: createMarkerIcon(getIconUrl(incident.emojiCode))
     })
 
-    newMarker.bindPopup(incident.text)
-    map.addLayer(newMarker)
-    markers.push(newMarker)
+    newMarker.bindPopup(incident.text);
+    map.addLayer(newMarker);
+    markers.push(newMarker);
   })
 }
 
@@ -167,8 +174,8 @@ const addIncidentsOnMap = (map, incidents) => {
  * @param {Object} map 
  */
 const removeMarkers = map => {
-  markers.forEach(marker => map.removeLayer(marker))
-  markers = []
+  markers.forEach(marker => map.removeLayer(marker));
+  markers = [];
 }
 
 /**
@@ -178,15 +185,15 @@ const removeMarkers = map => {
  * @param {Object} map - map to add incidents
  */
 const findNewIncidents = async (map) => {
-  const incidents = await getIncidents().then(res => res)
+  const incidents = await getIncidents().then(res => res);
   
-  removeMarkers(map)
+  removeMarkers(map);
 
   if (incidents.length !== 0) {
-    addIncidentsOnMap(map, incidents)
-    shouldShowNoIncidentAlert(false)
+    addIncidentsOnMap(map, incidents);;
+    shouldShowNoIncidentAlert(false);
   } else {
-    shouldShowNoIncidentAlert(true)
+    shouldShowNoIncidentAlert(true);
   }
 }
 
@@ -197,11 +204,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       zoomControl: false
     });
 
-    shouldShowStormAlert(false);
+    shouldShowMetereologicalAlert();
 
     await setupMap(map);
 
-    await setupStormAlert();
+    await setupMetereologicalAlerts();
+
+    setInterval(async () => {
+      await setupMetereologicalAlerts();
+    }, GET_ALERTS_INTERVAL);
 
     shouldRemoveTwitter();
 
@@ -253,16 +264,21 @@ const setupResizeEvent = map => {
  * Setup storm alert
  * 
  * @async
- * @function setupStormAlert
+ * @function setupMetereologicalAlerts
  */
-const setupStormAlert = async () => {
-  const alerts = await getAlerts()
-  shouldShowStormAlert(hasStormAlert(alerts))
+const setupMetereologicalAlerts = async () => {
+  const alerts = await getAlerts();
+    
+  const stormAlert = getStormAlert(alerts);
+  const heavyRainAlert = getHeavyRainAlert(alerts);
 
-  setInterval(async () => {
-    const alerts = await getAlerts()
-    shouldShowStormAlert(hasStormAlert(alerts))
-  }, GET_ALERTS_INTERVAL)
+  if (stormAlert !== "") {
+    shouldShowMetereologicalAlert(true, `${getAlertTextType(alertType(stormAlert))}Tempestade para hoje ⛈`, alertType(stormAlert));
+  } else if (heavyRainAlert !== "") {
+    shouldShowMetereologicalAlert(true, `${getAlertTextType(alertType(heavyRainAlert))}Chuvas Intensas para hoje 🌨`, alertType(heavyRainAlert));
+  } else {
+    shouldShowMetereologicalAlert();
+  }
 }
 
 /**
@@ -273,7 +289,7 @@ const setupStormAlert = async () => {
  * @return {Object[]} with tweets based on params
  */
 const getAlerts = async () => {
-  const rssEndpoint = 'https://alerts.inmet.gov.br/cap_12/rss/alert-as.rss';
+  const rssEndpoint = 'https://apiprevmet3.inmet.gov.br/avisos/rss';
   
   const res = await fetch(rssEndpoint)
       .then(response => response.text())
@@ -284,27 +300,94 @@ const getAlerts = async () => {
       })
       .catch(console.error);
   
-  return res || []
+  return res || [];
 }
 
 /**
  * Check if has to show storm alert
  *
- * @function hasStormAlert
- * @return {Bool} true if has to show storm alert
+ * @function getStormAlert
+ * @return {String} title of metereological event or "" if not
  */
-const hasStormAlert = xml => {
+const getStormAlert = xml => {
   const fisiologicalArea = 'depressão central';
+  const city = 'porto alegre';
   const stormWord = 'tempestade';
+  let ret = "";
 
-  return xml.some(item => {
+  for(let item of xml) {
     const itemTitle = item.childNodes[1].innerHTML.toLowerCase();
     const itemDescription = item.childNodes[5].innerHTML.toLowerCase();
     const itemDate = new Date(item.childNodes[7].innerHTML);
 
-    return (itemTitle.includes(stormWord) && itemDescription.includes(fisiologicalArea) && isToday(itemDate)); 
-  })
+    if (itemTitle.includes(stormWord) && (itemDescription.includes(fisiologicalArea) || (itemDescription.includes(city))) && isToday(itemDate)) {
+      ret = itemTitle;
+      return true;
+    }
+  }
+  return ret;
 }
+
+/**
+ * Check if has heavy rain alert
+ *
+ * @function hasHeavyRainAlert
+ * @param {Object} xml response for alert-as
+ * @return {String} title of metereological event or "" if not
+ */
+ const getHeavyRainAlert = xml => {
+  const fisiologicalArea = 'depressão central';
+  const city = 'porto alegre';
+  const heavyRainWord = 'chuvas intensas';
+  let ret = "";
+
+  xml.some(item => {
+    const itemTitle = item.childNodes[1].innerHTML.toLowerCase();
+    const itemDescription = item.childNodes[5].innerHTML.toLowerCase();
+    const itemDate = new Date(item.childNodes[7].innerHTML);
+    
+    if (itemTitle.includes(heavyRainWord) && (itemDescription.includes(fisiologicalArea) || (itemDescription.includes(city))) && isToday(itemDate)) {
+      ret = itemTitle;
+      return true;
+    }
+  })
+  return ret;
+}
+
+/**
+ * Check danger status
+ * 
+ * @param {String} metereologicalEvent response for alert-as 
+ * @returns {String} danger, potential danger or high potential
+ */
+ const alertType = metereologicalEvent => {
+  const highPotential = 'grande potencial';
+  const potentialDanger = 'perigo potencial';
+
+  // Order is important
+  if (metereologicalEvent.includes(highPotential)) {
+    return "alert-danger";
+  } else if (metereologicalEvent.includes(potentialDanger)) {
+    return "alert-warning";
+  }
+  return "alert-orange";
+}
+
+/**
+ * Get alert text type
+ * 
+ * @function getAlertTextType
+ * @param {String} metereologicalEventType 
+ * @returns {String} alert text
+ */
+const getAlertTextType = metereologicalEventType => {
+  switch(metereologicalEventType) {
+    case "alert-danger": return "Alerta Vermelho: ";
+    case "alert-orange": return "Alerta Laranja: ";
+    case "alert-warning": return "Alerta Amarelo: ";
+  } 
+}
+
 
 /**
  * Check if date is today
@@ -316,5 +399,5 @@ const isToday = someDate => {
   const today = new Date()
   return someDate.getDate() == today.getDate() &&
     someDate.getMonth() == today.getMonth() &&
-    someDate.getFullYear() == today.getFullYear()
+    someDate.getFullYear() == today.getFullYear();
 }
