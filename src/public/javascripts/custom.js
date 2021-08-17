@@ -322,7 +322,7 @@ const getStormAlert = xml => {
 
     if (itemTitle.includes(stormWord) && (itemDescription.includes(fisiologicalArea) || (itemDescription.includes(city))) && isToday(itemDate)) {
       ret = itemTitle;
-      return true;
+      return ret;
     }
   }
   return ret;
@@ -348,7 +348,7 @@ const getStormAlert = xml => {
     
     if (itemTitle.includes(heavyRainWord) && (itemDescription.includes(fisiologicalArea) || (itemDescription.includes(city))) && isToday(itemDate)) {
       ret = itemTitle;
-      return true;
+      return ret;
     }
   })
   return ret;
