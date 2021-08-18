@@ -268,27 +268,27 @@ const setupResizeEvent = map => {
  */
 const setupMetereologicalAlerts = async () => {
   const alerts = await getAlerts();
-
+  
   const stormWord = 'tempestade';
   const heavyRainWord = 'chuvas intensas';
   
   const hasSomeAlert = alerts.some(alert => {
-    console.log(alert)
+    
     if (checkAlertIsOnPOAArea(alert) && isAlertActive(alert)) {
-      const alertClass = alertType(alert)
-      
+      const alertClass = alertType(alert);
+
       if(alert.event === stormWord) {
         shouldShowMetereologicalAlert(true, `${getAlertTextType(alertClass)}Tempestade para hoje ⛈`, alertClass);
-        return true
+        return true;
       } else if (alert.event === heavyRainWord) {
         shouldShowMetereologicalAlert(true, `${getAlertTextType(alertClass)}Chuvas Intensas para hoje 🌨`, alertClass);
-        return true
+        return true;
       }
     }
   });
 
   if(!hasSomeAlert){
-    shouldShowMetereologicalAlert()
+    shouldShowMetereologicalAlert();
   }
 }
 
@@ -340,7 +340,7 @@ const parseMetereologicalEvents = xml => {
     console.log(error);
   }
 
-  return metereologicalEvents
+  return metereologicalEvents;
 }
 
 /**
@@ -378,19 +378,6 @@ const getAlertTextType = metereologicalEventType => {
 }
 
 /**
- * Check if date is today
- *
- * @function isToday
- * @return {Bool} true if date is today, else false
- */
-const isToday = someDate => {
-  const today = new Date()
-  return someDate.getDate() == today.getDate() &&
-    someDate.getMonth() == today.getMonth() &&
-    someDate.getFullYear() == today.getFullYear();
-}
-
-/**
  * Check if Porto Alegre is on metereological alerts area
  * 
  * @function checkAlertIsOnPOAArea
@@ -400,8 +387,8 @@ const isToday = someDate => {
 const checkAlertIsOnPOAArea = alert => {
   const fisiologicalArea = 'depressão central';
   const city = 'porto alegre';
-
-  return (alert.area.includes(city) || alert.area.includes(fisiologicalArea))
+  
+  return (alert.area.includes(city) || alert.area.includes(fisiologicalArea));
 }
 
 /**
@@ -414,5 +401,8 @@ const checkAlertIsOnPOAArea = alert => {
  const isAlertActive = alert => {
   const today = new Date();
 
-  return (Date.parse(alert.beginDate) <= today && Date.parse(alert.endDate) >= today)
+  let beginDate = alert.beginDate.replace(/-/g, "/").slice(0, -2);
+  let endDate = alert.endDate.replace(/-/g, "/").slice(0, -2);
+
+  return (Date.parse(beginDate) <= today && Date.parse(endDate) >= today);
 }
