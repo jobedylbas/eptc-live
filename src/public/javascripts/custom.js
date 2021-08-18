@@ -268,16 +268,27 @@ const setupResizeEvent = map => {
  */
 const setupMetereologicalAlerts = async () => {
   const alerts = await getAlerts();
-    
-  const stormAlert = getStormAlert(alerts);
-  const heavyRainAlert = getHeavyRainAlert(alerts);
 
-  if (stormAlert !== "") {
-    shouldShowMetereologicalAlert(true, `${getAlertTextType(alertType(stormAlert))}Tempestade para hoje ⛈`, alertType(stormAlert));
-  } else if (heavyRainAlert !== "") {
-    shouldShowMetereologicalAlert(true, `${getAlertTextType(alertType(heavyRainAlert))}Chuvas Intensas para hoje 🌨`, alertType(heavyRainAlert));
-  } else {
-    shouldShowMetereologicalAlert();
+  const stormWord = 'tempestade';
+  const heavyRainWord = 'chuvas intensas';
+  
+  const hasSomeAlert = alerts.some(alert => {
+    console.log(alert)
+    if (checkAlertIsOnPOAArea(alert) && isAlertActive(alert)) {
+      const alertClass = alertType(alert)
+      
+      if(alert.event === stormWord) {
+        shouldShowMetereologicalAlert(true, `${getAlertTextType(alertClass)}Tempestade para hoje ⛈`, alertClass);
+        return true
+      } else if (alert.event === heavyRainWord) {
+        shouldShowMetereologicalAlert(true, `${getAlertTextType(alertClass)}Chuvas Intensas para hoje 🌨`, alertClass);
+        return true
+      }
+    }
+  });
+
+  if(!hasSomeAlert){
+    shouldShowMetereologicalAlert()
   }
 }
 
@@ -296,7 +307,7 @@ const getAlerts = async () => {
       .then(data => {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data, "application/xml");
-        return [...xmlDoc.getElementsByTagName('item')];
+        return parseMetereologicalEvents([...xmlDoc.getElementsByTagName('item')]);
       })
       .catch(console.error);
   
@@ -304,54 +315,32 @@ const getAlerts = async () => {
 }
 
 /**
- * Check if has to show storm alert
- *
- * @function getStormAlert
- * @return {String} title of metereological event or "" if not
+ * Parse alert xml to metereological events
+ * @function parseMetereologicalEvents
+ * @param {xml} xml 
+ * @returns {Object[]} list of metereological events
  */
-const getStormAlert = xml => {
-  const fisiologicalArea = 'depressão central';
-  const city = 'porto alegre';
-  const stormWord = 'tempestade';
-  let ret = "";
+const parseMetereologicalEvents = xml => {
+  let metereologicalEvents = []
+  try {
+      metereologicalEvents = xml.map(item => {
+        const itemDescription = item.childNodes[5].innerHTML.replace('![CDATA', '');
+        const domParser = new DOMParser();
+        const descriptionTableData = domParser.parseFromString(itemDescription, "text/html").getElementsByTagName('td')
 
-  for(let item of xml) {
-    const itemTitle = item.childNodes[1].innerHTML.toLowerCase();
-    const itemDescription = item.childNodes[5].innerHTML.toLowerCase();
-    const itemDate = new Date(item.childNodes[7].innerHTML);
-
-    if (itemTitle.includes(stormWord) && (itemDescription.includes(fisiologicalArea) || (itemDescription.includes(city))) && isToday(itemDate)) {
-      ret = itemTitle;
-      return ret;
-    }
+        return {
+          event: descriptionTableData[1].innerHTML.toLowerCase(),
+          severity: descriptionTableData[2].innerHTML.toLowerCase(),
+          beginDate: descriptionTableData[3].innerHTML,
+          endDate: descriptionTableData[4].innerHTML,
+          area: descriptionTableData[6].innerHTML.toLowerCase(),
+        }; 
+    });
+  } catch (error) {
+    console.log(error);
   }
-  return ret;
-}
 
-/**
- * Check if has heavy rain alert
- *
- * @function hasHeavyRainAlert
- * @param {Object} xml response for alert-as
- * @return {String} title of metereological event or "" if not
- */
- const getHeavyRainAlert = xml => {
-  const fisiologicalArea = 'depressão central';
-  const city = 'porto alegre';
-  const heavyRainWord = 'chuvas intensas';
-  let ret = "";
-
-  xml.some(item => {
-    const itemTitle = item.childNodes[1].innerHTML.toLowerCase();
-    const itemDescription = item.childNodes[5].innerHTML.toLowerCase();
-    const itemDate = new Date(item.childNodes[7].innerHTML);
-    
-    if (itemTitle.includes(heavyRainWord) && (itemDescription.includes(fisiologicalArea) || (itemDescription.includes(city))) && isToday(itemDate)) {
-      ret = itemTitle;
-      return ret;
-    }
-  })
-  return ret;
+  return metereologicalEvents
 }
 
 /**
@@ -365,9 +354,9 @@ const getStormAlert = xml => {
   const potentialDanger = 'perigo potencial';
 
   // Order is important
-  if (metereologicalEvent.includes(highPotential)) {
+  if (metereologicalEvent.severity === highPotential) {
     return "alert-danger";
-  } else if (metereologicalEvent.includes(potentialDanger)) {
+  } else if (metereologicalEvent.severity === potentialDanger) {
     return "alert-warning";
   }
   return "alert-orange";
@@ -388,7 +377,6 @@ const getAlertTextType = metereologicalEventType => {
   } 
 }
 
-
 /**
  * Check if date is today
  *
@@ -400,4 +388,31 @@ const isToday = someDate => {
   return someDate.getDate() == today.getDate() &&
     someDate.getMonth() == today.getMonth() &&
     someDate.getFullYear() == today.getFullYear();
+}
+
+/**
+ * Check if Porto Alegre is on metereological alerts area
+ * 
+ * @function checkAlertIsOnPOAArea
+ * @param alert
+ * @return {Bool} true if event occurs on POA area
+ */
+const checkAlertIsOnPOAArea = alert => {
+  const fisiologicalArea = 'depressão central';
+  const city = 'porto alegre';
+
+  return (alert.area.includes(city) || alert.area.includes(fisiologicalArea))
+}
+
+/**
+ * Check if alert is active by date
+ * 
+ * @function filterAlertsByDate
+ * @param alert
+ * @return {Bool} true if alert is active
+ */
+ const isAlertActive = alert => {
+  const today = new Date();
+
+  return (Date.parse(alert.beginDate) <= today && Date.parse(alert.endDate) >= today)
 }
