@@ -1,7 +1,7 @@
 {
   "name": "eptc-live",
   "version": "1.0.0",
-  "description": "Real time traffic map using tweets of EPTC.",
+  "description": "Real time traffic map using EPTC tweets.",
   "main": "app.js",
   "scripts": {
     "start": "node ./bin/www",
@@ -15,16 +15,16 @@
     "express": "^4.17.1",
     "helmet": "^4.4.1",
     "http-errors": "^1.7.2",
-    "mongoose": "^5.11.17",
+    "mongoose": "^5.13.11",
     "morgan": "^1.10.0",
-    "needle": "^2.6.0",
+    "needle": "^2.9.1",
     "node-cron": "^2.0.3",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.5",
     "path": "^0.12.7",
     "pug": "^3.0.0"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.13"
   }
 }
