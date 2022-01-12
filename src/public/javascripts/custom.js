@@ -186,7 +186,6 @@ const removeMarkers = map => {
  */
 const findNewIncidents = async (map) => {
   const incidents = await getIncidents().then(res => res);
-  
   removeMarkers(map);
 
   if (incidents.length !== 0) {

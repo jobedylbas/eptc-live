@@ -76,9 +76,8 @@ exports.deleteIncidentById = async incidentId => {
   return result !== null
 }
 
-
 /**
- * Remove incidents that exists for more than 4 hours
+ * Remove incidents that exists for more than X hours
  *
  * @async
  * @function removeOlderIncidents
@@ -86,4 +85,15 @@ exports.deleteIncidentById = async incidentId => {
  */
 exports.deleteOlderIncidents = async date => {
   await Incident.deleteMany({ date: { $lt: date } })
+}
+
+/**
+ * Remove bridge lifting that exists for more than X hours
+ *
+ * @async
+ * @function deleIBridgeLiftingncidents
+ * @param {Date} date - since which date the incidents will be deleted
+ */
+ exports.deleteBridgeLiftingIncidents = async date => {
+  await Incident.deleteMany({ date: { $lt: date }, emojiCode: "26f4" });
 }

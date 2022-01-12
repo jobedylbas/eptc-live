@@ -5,6 +5,7 @@ const config = require(path.join(__dirname, '..', 'config'))
 const incidentFinder = require(path.join(__dirname, '..', 'jobs', 'findIncidents'))
 const resolvedIncidentRemover = require(path.join(__dirname, '..', 'jobs', 'removeResolvedIncidents'))
 const oldIncidentRemover = require(path.join(__dirname, '..', 'jobs', 'removeOldIncidents'))
+const bridgeLiftingRemover = require(path.join(__dirname, '..', 'jobs', 'removeBridgeLifting'))
 
 const prodTimeLimit = 240
 const devTimeLimit = 8640
@@ -75,5 +76,16 @@ exports.scheduleToRemoveIncidentsWithReply = () => {
 exports.scheduleToRemoveOldIncidents = () => {
   cron.schedule('0 */15 * * * *', () => {
     oldIncidentRemover.removeOldIncidents(generateLimitDate(240))
+  })
+}
+
+/**
+ * Schedule to remove bridge lifting events
+ * 
+ * @function scheduleToRemoveBridgeLiftingIncidents 
+ */
+ exports.scheduleToRemoveBridgeLiftingIncidents= () => {
+  cron.schedule('0 */15 * * * *', () => {
+    bridgeLiftingRemover.removeBridgeLiftingIncidents(generateLimitDate(30))
   })
 }
